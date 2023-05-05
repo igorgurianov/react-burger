@@ -1,0 +1,24 @@
+.elements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.list {
+  composes: elements;
+  margin: 0;
+  padding-left: 0;
+  max-height: 464px;
+  overflow-y: scroll;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.price {
+  composes: info;
+}
