@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <AppHeader className="mb-4" />
-      <Main data={data}></Main>
+      <Main data={data} />
     </>
   );
 }

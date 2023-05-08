@@ -12,23 +12,21 @@ const burgerComponentPropTypes = {
   price: PropTypes.number.isRequired,
 };
 
-class BurgerComponent extends React.Component {
-  render() {
-    return (
-      <li className={styles.wrapper}>
-        <DragIcon type="primary" />
-        <ConstructorElement
-          type={this.props.type}
-          isLocked={this.props.isLocked}
-          text={this.props.text}
-          price={this.props.price}
-          thumbnail={this.props.thumbnail}
-        />
-      </li>
-    );
-  }
-}
+const BurgerComponent = (props) => {
+  return (
+    <li className={styles.wrapper}>
+      <DragIcon type="primary" />
+      <ConstructorElement
+        isLocked={props.isLocked}
+        text={props.data.name}
+        price={props.data.price}
+        thumbnail={props.data.image}
+        onClick={props.updateConstructor}
+      />
+    </li>
+  );
+};
+
+BurgerComponent.propTypes = burgerComponentPropTypes.isRequired;
 
 export default BurgerComponent;
-
-BurgerComponent.propTypes = burgerComponentPropTypes;
