@@ -8,7 +8,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
-const Ingridients = (props) => {
+const Ingridients = ({ data }) => {
   const [ingridientCardInfo, setState] = useState("");
 
   const onOpen = (ingridient) => {
@@ -24,7 +24,7 @@ const Ingridients = (props) => {
   };
 
   const filterArray = (type) => {
-    return props.data.filter((ingridient) => checkArray(ingridient, type));
+    return data.filter((ingridient) => checkArray(ingridient, type));
   };
 
   return (

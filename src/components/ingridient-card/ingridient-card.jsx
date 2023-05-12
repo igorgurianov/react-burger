@@ -25,6 +25,7 @@ const IngredientCard = ({ data, onOpen }) => {
 
 IngredientCard.propTypes = {
   data: burgerIngridientsPropTypes,
+  onOpen: PropTypes.func.isRequired,
 };
 
 export default IngredientCard;

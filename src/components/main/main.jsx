@@ -7,15 +7,11 @@ import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const Main = (props) => {
-  // const handleOpen = () => {
-  //   setState(true);
-  // };
-
+const Main = ({ data }) => {
   return (
     <main className={styles.main}>
-      <BurgerIngredients data={props.data} />
-      <BurgerConstructor data={props.data} />
+      <BurgerIngredients data={data} />
+      <BurgerConstructor data={data} />
     </main>
   );
 };

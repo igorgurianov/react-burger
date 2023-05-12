@@ -1,6 +1,8 @@
 import React from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
+import burgerIngridientsPropTypes from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 const IngredientDetails = ({ ingridient, onClose }) => {
   return (
@@ -39,6 +41,11 @@ const IngredientDetails = ({ ingridient, onClose }) => {
       </ul>
     </div>
   );
+};
+
+IngredientDetails.propTypes = {
+  ingridient: burgerIngridientsPropTypes,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default IngredientDetails;

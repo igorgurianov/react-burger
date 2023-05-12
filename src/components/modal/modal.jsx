@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
-import Main from "../main/main";
-import ModalOverlay from "../modal-overlay/modal-overlay";
+import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ children, onClose, setActive }) => {
-  React.useEffect(() => {
+const Modal = ({ children, onClose }) => {
+  useEffect(() => {
     const closePopup = (evt) => {
       if (evt.key === "Escape") {
         onClose();
@@ -25,6 +24,11 @@ const Modal = ({ children, onClose, setActive }) => {
     </>,
     modalRoot
   );
+};
+
+Modal.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

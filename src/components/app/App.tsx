@@ -12,7 +12,9 @@ function App() {
       fetch(`${url}`)
         .then((res) => res.json())
         .then((res) => setState(res.data))
-        .catch((e) => console.log("Произошла ошибка при запросе ингридиентов"));
+        .catch((e) =>
+          console.log(`"Произошла ошибка при запросе ингридиентов" - ${e}`)
+        );
     };
     getIngridients();
   }, []);
