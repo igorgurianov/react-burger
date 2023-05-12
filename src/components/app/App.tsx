@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import AppHeader from "../header/header";
 import Main from "../main/main";
-import data from "../../utils/data";
+import url from "../../utils/api";
 
 function App() {
+  const [state, setState] = useState();
+
+  useEffect(() => {
+    const getIngridients = () => {
+      fetch(`${url}`)
+        .then((res) => res.json())
+        .then((res) => setState(res.data))
+        .catch((e) => console.log("Произошла ошибка при запросе ингридиентов"));
+    };
+    getIngridients();
+  }, []);
+
   return (
     <>
       <AppHeader className="mb-4" />
-      <Main data={data} />
+      {state && <Main data={state} />}
     </>
   );
 }
