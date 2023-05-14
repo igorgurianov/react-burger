@@ -1,20 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./main.module.css";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import burgerIngridientsPropTypes from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
-class Main extends React.Component {
-  render() {
-    return (
-      <main className={styles.main}>
-        <BurgerIngredients data={this.props.data} />
-        <BurgerConstructor data={this.props.data} />
-      </main>
-    );
-  }
-}
+const Main = ({ data }) => {
+  return (
+    <main className={styles.main}>
+      <BurgerIngredients data={data} />
+      <BurgerConstructor data={data} />
+    </main>
+  );
+};
 
 Main.propTypes = {
   data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
