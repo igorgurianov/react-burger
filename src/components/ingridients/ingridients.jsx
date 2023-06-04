@@ -6,7 +6,6 @@ import burgerIngridientsPropTypes from "../../utils/prop-types";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const Ingridients = ({ data }) => {
   const [ingridientCardInfo, setState] = useState("");
@@ -56,7 +55,6 @@ const Ingridients = ({ data }) => {
             ingridient={ingridientCardInfo}
             onClose={onClose}
           />
-          <ModalOverlay onClose={onClose} />
         </Modal>
       )}
     </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 import PropTypes from "prop-types";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -21,6 +22,7 @@ const Modal = ({ children, onClose }) => {
   return ReactDOM.createPortal(
     <>
       <div className={styles.modal}>{children}</div>
+      <ModalOverlay onClose={onClose} />
     </>,
     modalRoot
   );

@@ -11,7 +11,7 @@ import burgerIngridientsPropTypes from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
-import ModalOverlay from "../modal-overlay/modal-overlay";
+
 import OrderDetails from "../order-details/order-details";
 
 const BurgerConstructor = (props) => {
@@ -64,7 +64,6 @@ const BurgerConstructor = (props) => {
       </div>
       {orderInfo && (
         <Modal onClose={onClose}>
-          <ModalOverlay onClose={onClose} />
           <OrderDetails onClose={onClose} />
         </Modal>
       )}
