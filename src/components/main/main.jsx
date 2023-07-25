@@ -7,17 +7,17 @@ import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const Main = ({ data }) => {
+const Main = () => {
   return (
     <main className={styles.main}>
-      <BurgerIngredients data={data} />
-      <BurgerConstructor data={data} />
+      <BurgerIngredients />
+      <BurgerConstructor />
     </main>
   );
 };
 
-Main.propTypes = {
-  data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
-};
+// Main.propTypes = {
+//   data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
+// };
 
 export default Main;

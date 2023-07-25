@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -11,11 +11,17 @@ import burgerIngridientsPropTypes from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
+import { ConstructorProvider } from "../../context/ConstructorContex";
+import { ConstructorContext } from "../../context/ConstructorContex";
+import { IngridientsContex } from "../../context/IngridientsContext";
+
+import api from "../../utils/api";
 
 import OrderDetails from "../order-details/order-details";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
   const [orderInfo, setOrderInfo] = useState(false);
+  const { constructor, setConstructor } = useContext(ConstructorContext);
 
   const onOpen = () => {
     setOrderInfo(true);
@@ -25,37 +31,51 @@ const BurgerConstructor = (props) => {
     setOrderInfo(false);
   };
 
+  // const findIngridient = () => {
+  //   constructor.filter((ingridient) => {
+
+  //   })
+  // }
+
   return (
     <div>
-      <div className={`${styles.elements} mt-25`}>
-        <ConstructorElement
-          extraClass="mr-2 ml-4"
-          type="top"
-          isLocked
-          text={props.data[0].name}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image}
-        />
-        <ul className={`${styles.list} custom-scroll pr-2`}>
-          {props.data.map(
-            (ingridient, index) =>
-              ingridient.type != ingridientTypes.bun && (
-                <BurgerComponent key={index} data={ingridient} />
-              )
+      {constructor && (
+        <div className={`${styles.elements} mt-25`}>
+          {constructor.bun.length > 0 && (
+            <ConstructorElement
+              extraClass="mr-2 ml-4"
+              type="top"
+              isLocked
+              text={`${constructor.bun[0].name} (верх)`}
+              price={constructor.bun[0].price}
+              thumbnail={constructor.bun[0].image}
+            />
           )}
-        </ul>
-        <ConstructorElement
-          extraClass="mr-2 ml-4"
-          type="bottom"
-          isLocked
-          text={props.data[0].name}
-          price={props.data[0].price}
-          thumbnail={props.data[0].image}
-        />
-      </div>
+
+          <ul className={`${styles.list} custom-scroll pr-2`}>
+            {constructor.fillings.map(
+              (ingridient, index) =>
+                ingridient.type != ingridientTypes.bun && (
+                  <BurgerComponent key={index} data={ingridient} />
+                )
+            )}
+          </ul>
+          {constructor.bun.length > 0 && (
+            <ConstructorElement
+              extraClass="mr-2 ml-4"
+              type="bottom"
+              isLocked
+              text={`${constructor.bun[0].name} (низ)`}
+              price={constructor.bun[0].price}
+              thumbnail={constructor.bun[0].image}
+            />
+          )}
+        </div>
+      )}
+
       <div className={`${styles.info} mt-10 pr-4`}>
         <div className={`${styles.price} mr-10`}>
-          <Total total={610}> </Total>
+          <Total data={constructor}> </Total>
           <CurrencyIcon type="primary" />
         </div>
         <Button onClick={onOpen} htmlType="button" type="primary" size="large">
@@ -71,8 +91,8 @@ const BurgerConstructor = (props) => {
   );
 };
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
-};
+// BurgerConstructor.propTypes = {
+//   data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
+// };
 
 export default BurgerConstructor;
