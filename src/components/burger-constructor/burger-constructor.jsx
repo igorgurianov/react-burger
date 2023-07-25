@@ -7,35 +7,35 @@ import {
 import styles from "./burger-constructor.module.css";
 import BurgerComponent from "../burger-component/burger-component.jsx";
 import Total from "../total/total";
-import burgerIngridientsPropTypes from "../../utils/prop-types";
-import PropTypes from "prop-types";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
-import { ConstructorProvider } from "../../context/ConstructorContex";
 import { ConstructorContext } from "../../context/ConstructorContex";
-import { IngridientsContex } from "../../context/IngridientsContext";
-
-import api from "../../utils/api";
-
+import { placeOrder } from "../../utils/api";
 import OrderDetails from "../order-details/order-details";
 
 const BurgerConstructor = () => {
   const [orderInfo, setOrderInfo] = useState(false);
-  const { constructor, setConstructor } = useContext(ConstructorContext);
+  const { constructor, setConstructor, order, setOrder } =
+    useContext(ConstructorContext);
 
   const onOpen = () => {
     setOrderInfo(true);
+    placeOrder(requestData()).then((res) => setOrder(res));
   };
 
   const onClose = () => {
     setOrderInfo(false);
   };
 
-  // const findIngridient = () => {
-  //   constructor.filter((ingridient) => {
+  const requestData = () => {
+    var request = [];
+    constructor.fillings.map((item) => {
+      request.push(item._id);
+    });
+    request.push(constructor.bun[0]._id);
 
-  //   })
-  // }
+    return request;
+  };
 
   return (
     <div>
@@ -82,7 +82,7 @@ const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
-      {orderInfo && (
+      {orderInfo && order && (
         <Modal onClose={onClose}>
           <OrderDetails onClose={onClose} />
         </Modal>
@@ -90,9 +90,5 @@ const BurgerConstructor = () => {
     </div>
   );
 };
-
-// BurgerConstructor.propTypes = {
-//   data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
-// };
 
 export default BurgerConstructor;

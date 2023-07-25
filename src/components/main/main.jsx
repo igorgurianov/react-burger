@@ -16,8 +16,4 @@ const Main = () => {
   );
 };
 
-// Main.propTypes = {
-//   data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
-// };
-
 export default Main;

@@ -15,6 +15,9 @@ function App() {
   // Состояние конструктора ингридиентов справа
   const [constructor, setConstructor] = useState({ bun: [], fillings: [] });
 
+  //Состояние тотала
+  const [order, setOrder] = useState(null);
+
   // Для подсчета стоимости
   const [total, dispatch] = useReducer(reducer, { count: 0 });
 
@@ -46,7 +49,14 @@ function App() {
       <AppHeader className="mb-4" />
       <IngridientsContex.Provider value={{ ingridients, setIngridients }}>
         <ConstructorContext.Provider
-          value={{ constructor, setConstructor, updateTotal, total }}
+          value={{
+            constructor,
+            setConstructor,
+            updateTotal,
+            total,
+            order,
+            setOrder,
+          }}
         >
           <Main />
         </ConstructorContext.Provider>

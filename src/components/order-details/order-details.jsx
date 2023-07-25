@@ -7,36 +7,7 @@ import { placeOrder } from "../../utils/api";
 import { ConstructorContext } from "../../context/ConstructorContex";
 
 const OrderDetails = ({ onClose }) => {
-  const [order, setOrder] = useState(null);
-
-  // const { constructor } = useContext(ConstructorContext);
-
-  // const requestData = () => {
-  //   var request = [];
-  //   constructor.fillings.map((item) => {
-  //     request.push(item._id);
-  //   });
-  //   request.push(constructor.bun[0]._id);
-
-  //   return request;
-  // };
-
-  // console.log(requestData());
-
-  const testData = [
-    "643d69a5c3f7b9001cfa0943",
-    "643d69a5c3f7b9001cfa0945",
-    "643d69a5c3f7b9001cfa0944",
-  ];
-
-  // const getOrder = () => {
-
-  // };
-
-  useEffect(() => {
-    placeOrder(testData).then((res) => setOrder(res));
-    setOrder(null);
-  }, []);
+  const { order } = useContext(ConstructorContext);
 
   return (
     <div className={`${styles.container} pt-30 pb-30 pr-25 pl-25`}>

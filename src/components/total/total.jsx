@@ -3,7 +3,6 @@ import { ConstructorContext } from "../../context/ConstructorContex";
 
 const Total = () => {
   const { total } = useContext(ConstructorContext);
-  //
 
   return (
     <div>

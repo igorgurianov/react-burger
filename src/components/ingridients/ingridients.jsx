@@ -16,7 +16,7 @@ const Ingridients = () => {
   const { constructor, setConstructor, updateTotal } =
     useContext(ConstructorContext);
 
-  // Пока клик заменили на добавление в конструктор вместо открытия карточки с инфой
+  // Пока клик заменили на добавление в конструктор вместо открытия карточки c инфой
   // const onOpen = (ingridient) => {
   //   setState(ingridient);
   // };
@@ -82,9 +82,5 @@ const Ingridients = () => {
     </div>
   );
 };
-
-// Ingridients.propTypes = {
-//   data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
-// };
 
 export default Ingridients;
