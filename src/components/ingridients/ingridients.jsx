@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import IngredientCard from "../ingridient-card/ingridient-card";
 import styles from "./ingridients.module.css";
 import PropTypes from "prop-types";
@@ -6,12 +6,34 @@ import burgerIngridientsPropTypes from "../../utils/prop-types";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngridientsContex } from "../../context/IngridientsContext";
+import { ConstructorContext } from "../../context/ConstructorContex";
 
-const Ingridients = ({ data }) => {
+const Ingridients = () => {
   const [ingridientCardInfo, setState] = useState("");
 
+  const { ingridients, setIngridients } = useContext(IngridientsContex);
+  const { constructor, setConstructor, updateTotal } =
+    useContext(ConstructorContext);
+
+  // Пока клик заменили на добавление в конструктор вместо открытия карточки c инфой
+  // const onOpen = (ingridient) => {
+  //   setState(ingridient);
+  // };
+
   const onOpen = (ingridient) => {
-    setState(ingridient);
+    if (ingridient.type === ingridientTypes.bun) {
+      setConstructor({
+        ...constructor,
+        bun: [ingridient],
+      });
+    } else {
+      setConstructor({
+        ...constructor,
+        fillings: [...constructor.fillings, ingridient],
+      });
+    }
+    updateTotal(ingridient);
   };
 
   const onClose = () => {
@@ -23,7 +45,7 @@ const Ingridients = ({ data }) => {
   };
 
   const filterArray = (type) => {
-    return data.filter((ingridient) => checkArray(ingridient, type));
+    return ingridients.filter((ingridient) => checkArray(ingridient, type));
   };
 
   return (
@@ -59,10 +81,6 @@ const Ingridients = ({ data }) => {
       )}
     </div>
   );
-};
-
-Ingridients.propTypes = {
-  data: PropTypes.arrayOf(burgerIngridientsPropTypes).isRequired,
 };
 
 export default Ingridients;
