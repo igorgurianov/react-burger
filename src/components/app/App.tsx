@@ -7,6 +7,8 @@ import ingridientTypes from "../../utils/constants";
 
 import { IngridientsContex } from "../../context/IngridientsContext";
 import { ConstructorContext } from "../../context/ConstructorContex";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   // Состояние полного набора ингридиентов слева
@@ -58,7 +60,9 @@ function App() {
             setOrder,
           }}
         >
-          <Main />
+          <DndProvider backend={HTML5Backend}>
+            <Main />
+          </DndProvider>
         </ConstructorContext.Provider>
       </IngridientsContex.Provider>
     </>

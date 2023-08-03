@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -12,77 +12,112 @@ import Modal from "../modal/modal";
 import { ConstructorContext } from "../../context/ConstructorContex";
 import { placeOrder } from "../../utils/api";
 import OrderDetails from "../order-details/order-details";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrder } from "../../services/actions/order";
+import { CLOSE_ORDER_INFO } from "../../services/actions/order";
+import { useDrop } from "react-dnd";
+import { ADD_BUN, ADD_FILLING } from "../../services/actions/constructor";
 
 const BurgerConstructor = () => {
   const [orderInfo, setOrderInfo] = useState(false);
-  const { constructor, setConstructor, order, setOrder } =
+  const { constructor, setConstructor, setOrder } =
     useContext(ConstructorContext);
 
+  const dispatch = useDispatch();
+
+  const { selectedBun, selectedFillings } = useSelector(
+    (store) => store.constructor
+  );
+
+  const { isOpen, order } = useSelector((store) => store.order);
+
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingridient",
+    drop(ingridient) {
+      onDropHandler(ingridient.data);
+    },
+  });
+
+  const onDropHandler = (ingridient) => {
+    if (ingridient.type === ingridientTypes.bun) {
+      dispatch({ type: ADD_BUN, payload: ingridient });
+    } else {
+      dispatch({ type: ADD_FILLING, payload: ingridient });
+    }
+  };
+
+  // console.log(selectedFillings);
+
   const onOpen = () => {
-    setOrderInfo(true);
-    placeOrder(requestData()).then((res) => setOrder(res));
+    // setOrderInfo(true);
+    // placeOrder(requestData()).then((res) => setOrder(res));
+
+    dispatch(getOrder(requestData()));
   };
 
   const onClose = () => {
-    setOrderInfo(false);
+    // setOrderInfo(false);
+    dispatch({ type: CLOSE_ORDER_INFO, payload: {} });
   };
 
   const requestData = () => {
     var request = [];
-    constructor.fillings.map((item) => {
+    selectedFillings.map((item) => {
       request.push(item._id);
     });
-    request.push(constructor.bun[0]._id);
+    request.push(selectedBun._id);
 
     return request;
   };
 
   return (
-    <div>
-      {constructor && (
-        <div className={`${styles.elements} mt-25`}>
-          {constructor.bun.length > 0 && (
-            <ConstructorElement
-              extraClass="mr-2 ml-4"
-              type="top"
-              isLocked
-              text={`${constructor.bun[0].name} (верх)`}
-              price={constructor.bun[0].price}
-              thumbnail={constructor.bun[0].image}
-            />
-          )}
+    <div ref={dropTarget} className={styles.constructor}>
+      <div className={`${styles.elements} mt-25`}>
+        {selectedBun && (
+          <ConstructorElement
+            extraClass="mr-2 ml-4"
+            type="top"
+            isLocked
+            text={`${selectedBun.name} (верх)`}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
+          />
+        )}
 
+        {selectedFillings && (
           <ul className={`${styles.list} custom-scroll pr-2`}>
-            {constructor.fillings.map(
-              (ingridient, index) =>
-                ingridient.type != ingridientTypes.bun && (
-                  <BurgerComponent key={index} data={ingridient} />
-                )
-            )}
+            {selectedFillings.map((ingridient, index) => {
+              return <BurgerComponent key={index} data={ingridient} />;
+            })}
           </ul>
-          {constructor.bun.length > 0 && (
-            <ConstructorElement
-              extraClass="mr-2 ml-4"
-              type="bottom"
-              isLocked
-              text={`${constructor.bun[0].name} (низ)`}
-              price={constructor.bun[0].price}
-              thumbnail={constructor.bun[0].image}
-            />
-          )}
-        </div>
-      )}
+        )}
+
+        {selectedBun && (
+          <ConstructorElement
+            extraClass="mr-2 ml-4"
+            type="bottom"
+            isLocked
+            text={`${selectedBun.name} (низ)`}
+            price={selectedBun.price}
+            thumbnail={selectedBun.image}
+          />
+        )}
+      </div>
 
       <div className={`${styles.info} mt-10 pr-4`}>
-        <div className={`${styles.price} mr-10`}>
-          <Total data={constructor}> </Total>
-          <CurrencyIcon type="primary" />
-        </div>
-        <Button onClick={onOpen} htmlType="button" type="primary" size="large">
+        <Total data={constructor}> </Total>
+        <CurrencyIcon type="primary" />
+        <Button
+          onClick={onOpen}
+          htmlType="button"
+          type="primary"
+          size="large"
+          style={{ marginLeft: "40px" }}
+        >
           Оформить заказ
         </Button>
       </div>
-      {orderInfo && order && (
+      {isOpen && (
         <Modal onClose={onClose}>
           <OrderDetails onClose={onClose} />
         </Modal>

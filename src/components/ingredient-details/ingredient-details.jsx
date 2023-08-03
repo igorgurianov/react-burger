@@ -3,8 +3,11 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
 import burgerIngridientsPropTypes from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 const IngredientDetails = ({ ingridient, onClose }) => {
+  const ingridientInfo = useSelector((store) => store.details);
+
   return (
     <div className={`${styles.wrapper} pt-10 pb-15 pl-10 pr-10`}>
       <div className={styles.title}>

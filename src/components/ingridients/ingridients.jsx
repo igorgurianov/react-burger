@@ -8,13 +8,25 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { IngridientsContex } from "../../context/IngridientsContext";
 import { ConstructorContext } from "../../context/ConstructorContex";
+import { useDispatch, useSelector } from "react-redux";
+import { getItems } from "../../services/actions";
+import { ADD_BUN, ADD_FILLING } from "../../services/actions/constructor";
+import {
+  GET_INGRIDIENT_DETAILS,
+  REMOVE_INGRIDIENT_DETAILS,
+} from "../../services/actions/details";
 
 const Ingridients = () => {
+  const dispatch = useDispatch();
+
   const [ingridientCardInfo, setState] = useState("");
 
-  const { ingridients, setIngridients } = useContext(IngridientsContex);
   const { constructor, setConstructor, updateTotal } =
     useContext(ConstructorContext);
+
+  const allIngridients = useSelector((store) => store.ingridients);
+  const selectedIngridients = useSelector((store) => store.constructor);
+  const ingridientInfo = useSelector((store) => store.details);
 
   // Пока клик заменили на добавление в конструктор вместо открытия карточки c инфой
   // const onOpen = (ingridient) => {
@@ -22,22 +34,11 @@ const Ingridients = () => {
   // };
 
   const onOpen = (ingridient) => {
-    if (ingridient.type === ingridientTypes.bun) {
-      setConstructor({
-        ...constructor,
-        bun: [ingridient],
-      });
-    } else {
-      setConstructor({
-        ...constructor,
-        fillings: [...constructor.fillings, ingridient],
-      });
-    }
-    updateTotal(ingridient);
+    // dispatch({ type: GET_INGRIDIENT_DETAILS, payload: ingridient });
   };
 
   const onClose = () => {
-    setState("");
+    dispatch({ type: REMOVE_INGRIDIENT_DETAILS, payload: {} });
   };
 
   const checkArray = (ingridient, type) => {
@@ -45,8 +46,14 @@ const Ingridients = () => {
   };
 
   const filterArray = (type) => {
-    return ingridients.filter((ingridient) => checkArray(ingridient, type));
+    return allIngridients.allItems.filter((ingridient) =>
+      checkArray(ingridient, type)
+    );
   };
+
+  useEffect(() => {
+    dispatch(getItems());
+  }, [dispatch]);
 
   return (
     <div className={`${styles.wrapper} custom-scroll mt-10`}>
@@ -71,10 +78,10 @@ const Ingridients = () => {
           <IngredientCard key={index} data={ingridient} onOpen={onOpen} />
         ))}
       </div>
-      {ingridientCardInfo && (
+      {ingridientInfo.state && (
         <Modal onClose={onClose}>
           <IngredientDetails
-            ingridient={ingridientCardInfo}
+            ingridient={ingridientInfo.state}
             onClose={onClose}
           />
         </Modal>
