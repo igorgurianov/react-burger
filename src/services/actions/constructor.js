@@ -1,2 +1,4 @@
 export const ADD_FILLING = "ADD_FILLING";
 export const ADD_BUN = "ADD_BUN";
+export const REMOVE_FILLING = "REMOVE_FILLING";
+export const ORDER_INGRIDIENTS = "ORDER_INGRIDIENTS";

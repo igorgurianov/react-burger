@@ -9,54 +9,57 @@ import BurgerComponent from "../burger-component/burger-component.jsx";
 import Total from "../total/total";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
-import { ConstructorContext } from "../../context/ConstructorContex";
-import { placeOrder } from "../../utils/api";
+
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../../services/actions/order";
 import { CLOSE_ORDER_INFO } from "../../services/actions/order";
-import { useDrop } from "react-dnd";
-import { ADD_BUN, ADD_FILLING } from "../../services/actions/constructor";
+import { DndProvider, useDrop } from "react-dnd";
+import {
+  ADD_BUN,
+  ADD_FILLING,
+  ORDER_INGRIDIENTS,
+} from "../../services/actions/constructor";
+import { v4 as uuidv4 } from "uuid";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const BurgerConstructor = () => {
-  const [orderInfo, setOrderInfo] = useState(false);
-  const { constructor, setConstructor, setOrder } =
-    useContext(ConstructorContext);
-
   const dispatch = useDispatch();
-
+  // Стор конструктора
   const { selectedBun, selectedFillings } = useSelector(
-    (store) => store.constructor
+    (store) => store.burgerConstructor
   );
-
+  // Стор заказа
   const { isOpen, order } = useSelector((store) => store.order);
 
+  // Перенос начального ингридиента в конструктор
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingridient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
     drop(ingridient) {
       onDropHandler(ingridient.data);
     },
   });
 
+  // Хендлер переноса начального ингридиента в конструктор
   const onDropHandler = (ingridient) => {
+    const uniqueId = uuidv4();
     if (ingridient.type === ingridientTypes.bun) {
-      dispatch({ type: ADD_BUN, payload: ingridient });
+      dispatch({ type: ADD_BUN, payload: { ...ingridient, uniqueId } });
     } else {
-      dispatch({ type: ADD_FILLING, payload: ingridient });
+      dispatch({ type: ADD_FILLING, payload: { ...ingridient, uniqueId } });
     }
   };
 
-  // console.log(selectedFillings);
+  const borderColor = isHover ? { border: "2px solid greenyellow" } : {};
 
+  // Окно с номером заказа
   const onOpen = () => {
-    // setOrderInfo(true);
-    // placeOrder(requestData()).then((res) => setOrder(res));
-
     dispatch(getOrder(requestData()));
   };
-
   const onClose = () => {
-    // setOrderInfo(false);
     dispatch({ type: CLOSE_ORDER_INFO, payload: {} });
   };
 
@@ -70,8 +73,17 @@ const BurgerConstructor = () => {
     return request;
   };
 
+  // Передвижение внутри констуктора
+  const moveCard = (dragIndex, hoverIndex) => {
+    dispatch({ type: ORDER_INGRIDIENTS, payload: { dragIndex, hoverIndex } });
+  };
+
   return (
-    <div ref={dropTarget} className={styles.constructor}>
+    <div
+      ref={dropTarget}
+      className={`${styles.constructor}`}
+      style={borderColor}
+    >
       <div className={`${styles.elements} mt-25`}>
         {selectedBun && (
           <ConstructorElement
@@ -85,11 +97,21 @@ const BurgerConstructor = () => {
         )}
 
         {selectedFillings && (
-          <ul className={`${styles.list} custom-scroll pr-2`}>
-            {selectedFillings.map((ingridient, index) => {
-              return <BurgerComponent key={index} data={ingridient} />;
-            })}
-          </ul>
+          <DndProvider backend={HTML5Backend}>
+            <ul className={`${styles.list} custom-scroll pr-2`}>
+              {selectedFillings.map((ingridient, index) => {
+                return (
+                  <BurgerComponent
+                    key={ingridient.uniqueId}
+                    data={ingridient}
+                    uniqueId={ingridient.uniqueId}
+                    index={index}
+                    moveCard={moveCard}
+                  />
+                );
+              })}
+            </ul>
+          </DndProvider>
         )}
 
         {selectedBun && (
@@ -105,7 +127,7 @@ const BurgerConstructor = () => {
       </div>
 
       <div className={`${styles.info} mt-10 pr-4`}>
-        <Total data={constructor}> </Total>
+        <Total />
         <CurrencyIcon type="primary" />
         <Button
           onClick={onOpen}

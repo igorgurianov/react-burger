@@ -14,8 +14,8 @@ function App() {
   // Состояние полного набора ингридиентов слева
   const [ingridients, setIngridients] = useState(["check"]);
 
-  // Состояние конструктора ингридиентов справа
-  const [constructor, setConstructor] = useState({ bun: [], fillings: [] });
+  // // Состояние конструктора ингридиентов справа
+  // const [constructor, setConstructor] = useState({ bun: [], fillings: [] });
 
   //Состояние тотала
   const [order, setOrder] = useState(null);
@@ -50,20 +50,9 @@ function App() {
     <>
       <AppHeader className="mb-4" />
       <IngridientsContex.Provider value={{ ingridients, setIngridients }}>
-        <ConstructorContext.Provider
-          value={{
-            constructor,
-            setConstructor,
-            updateTotal,
-            total,
-            order,
-            setOrder,
-          }}
-        >
-          <DndProvider backend={HTML5Backend}>
-            <Main />
-          </DndProvider>
-        </ConstructorContext.Provider>
+        <DndProvider backend={HTML5Backend}>
+          <Main />
+        </DndProvider>
       </IngridientsContex.Provider>
     </>
   );
