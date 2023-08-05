@@ -1,5 +1,3 @@
-import { useContext, useReducer, useEffect } from "react";
-import { ConstructorContext } from "../../context/ConstructorContex";
 import { useSelector } from "react-redux";
 
 const Total = () => {

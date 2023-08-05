@@ -1,4 +1,3 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -7,21 +6,17 @@ import {
 import styles from "./burger-constructor.module.css";
 import BurgerComponent from "../burger-component/burger-component.jsx";
 import Total from "../total/total";
-import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
-
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../../services/actions/order";
 import { CLOSE_ORDER_INFO } from "../../services/actions/order";
-import { DndProvider, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 import {
-  ADD_BUN,
-  ADD_FILLING,
+  ADD_INGRIDIENT,
   ORDER_INGRIDIENTS,
+  RESET_CONSTRUCTOR,
 } from "../../services/actions/constructor";
-import { v4 as uuidv4 } from "uuid";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -30,7 +25,7 @@ const BurgerConstructor = () => {
     (store) => store.burgerConstructor
   );
   // Стор заказа
-  const { isOpen, order } = useSelector((store) => store.order);
+  const { isOpen, orderFailed } = useSelector((store) => store.order);
 
   // Перенос начального ингридиента в конструктор
   const [{ isHover }, dropTarget] = useDrop({
@@ -45,32 +40,26 @@ const BurgerConstructor = () => {
 
   // Хендлер переноса начального ингридиента в конструктор
   const onDropHandler = (ingridient) => {
-    const uniqueId = uuidv4();
-    if (ingridient.type === ingridientTypes.bun) {
-      dispatch({ type: ADD_BUN, payload: { ...ingridient, uniqueId } });
-    } else {
-      dispatch({ type: ADD_FILLING, payload: { ...ingridient, uniqueId } });
-    }
+    dispatch({ type: ADD_INGRIDIENT, payload: ingridient });
   };
 
   const borderColor = isHover ? { border: "2px solid greenyellow" } : {};
 
   // Окно с номером заказа
   const onOpen = () => {
-    dispatch(getOrder(requestData()));
+    if (selectedBun) {
+      const constructor = [
+        selectedBun._id,
+        ...selectedFillings.map((item) => item._id),
+        selectedBun._id,
+      ];
+      dispatch(getOrder(constructor));
+    }
   };
+
   const onClose = () => {
-    dispatch({ type: CLOSE_ORDER_INFO, payload: {} });
-  };
-
-  const requestData = () => {
-    var request = [];
-    selectedFillings.map((item) => {
-      request.push(item._id);
-    });
-    request.push(selectedBun._id);
-
-    return request;
+    dispatch({ type: CLOSE_ORDER_INFO });
+    dispatch({ type: RESET_CONSTRUCTOR });
   };
 
   // Передвижение внутри констуктора
@@ -97,21 +86,19 @@ const BurgerConstructor = () => {
         )}
 
         {selectedFillings && (
-          <DndProvider backend={HTML5Backend}>
-            <ul className={`${styles.list} custom-scroll pr-2`}>
-              {selectedFillings.map((ingridient, index) => {
-                return (
-                  <BurgerComponent
-                    key={ingridient.uniqueId}
-                    data={ingridient}
-                    uniqueId={ingridient.uniqueId}
-                    index={index}
-                    moveCard={moveCard}
-                  />
-                );
-              })}
-            </ul>
-          </DndProvider>
+          <ul className={`${styles.list} custom-scroll pr-2`}>
+            {selectedFillings.map((ingridient, index) => {
+              return (
+                <BurgerComponent
+                  key={ingridient.uniqueId}
+                  data={ingridient}
+                  uniqueId={ingridient.uniqueId}
+                  index={index}
+                  moveCard={moveCard}
+                />
+              );
+            })}
+          </ul>
         )}
 
         {selectedBun && (
@@ -134,7 +121,10 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="large"
-          style={{ marginLeft: "40px" }}
+          style={{
+            marginLeft: "40px",
+            cursor: selectedBun ? "pointer" : "not-allowed",
+          }}
         >
           Оформить заказ
         </Button>

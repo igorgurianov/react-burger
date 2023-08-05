@@ -1,10 +1,11 @@
-import { ADD_ITEM } from "../actions/constructor";
 import {
-  ADD_BUN,
-  ADD_FILLING,
   REMOVE_FILLING,
   ORDER_INGRIDIENTS,
+  ADD_INGRIDIENT,
+  RESET_CONSTRUCTOR,
 } from "../actions/constructor";
+import { v4 as uuidv4 } from "uuid";
+import ingridientTypes from "../../utils/constants";
 
 const initialState = {
   selectedBun: null,
@@ -15,16 +16,23 @@ const initialState = {
 
 export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_BUN:
-      return {
-        ...state,
-        selectedBun: action.payload,
-      };
-    case ADD_FILLING:
-      return {
-        ...state,
-        selectedFillings: [...state.selectedFillings, action.payload],
-      };
+    case ADD_INGRIDIENT:
+      const uniqueId = uuidv4();
+      if (action.payload.type === ingridientTypes.bun) {
+        return {
+          ...state,
+          selectedBun: { ...action.payload, uniqueId },
+        };
+      } else {
+        return {
+          ...state,
+          selectedFillings: [
+            ...state.selectedFillings,
+            { ...action.payload, uniqueId },
+          ],
+        };
+      }
+
     case REMOVE_FILLING:
       return {
         ...state,
@@ -51,31 +59,11 @@ export const constructorReducer = (state = initialState, action) => {
       };
     }
 
+    case RESET_CONSTRUCTOR: {
+      return { ...initialState };
+    }
+
     default:
       return state;
   }
 };
-
-// const existingFillings = state.selectedFillings.find(
-//   (item) => item._id === action.payload._id
-// );
-// if (existingFillings) {
-//   const updatedFillings = state.selectedFillings.map((item) =>
-//     item._id === action.payload._id
-//       ? { ...item, qty: item.qty + 1 }
-//       : item
-//   );
-//   return {
-//     ...state,
-//     selectedFillings: updatedFillings,
-//   };
-// } else {
-//   // If the filling is new, add it to the selectedFillings array with qty = 1
-//   return {
-//     ...state,
-//     selectedFillings: [
-//       ...state.selectedFillings,
-//       { ...action.payload, qty: 1 },
-//     ],
-//   };
-// }

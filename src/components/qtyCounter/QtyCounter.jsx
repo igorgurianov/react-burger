@@ -1,7 +1,4 @@
-import {
-  Counter,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import ingridientTypes from "../../utils/constants";
 
@@ -11,7 +8,7 @@ const QtyCounter = ({ id, type }) => {
 
   const countedNumber = () => {
     if (selectedBun && type === ingridientTypes.bun) {
-      return id === selectedBun._id ? 1 : 0;
+      return id === selectedBun._id ? 2 : 0;
     } else {
       return selectedFillings.reduce((count, ingredient) => {
         return ingredient._id === id ? count + 1 : count;

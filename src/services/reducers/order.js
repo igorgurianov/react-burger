@@ -1,8 +1,15 @@
-import { GET_ORDER_SUCCESS, CLOSE_ORDER_INFO } from "../actions/order";
+import {
+  GET_ORDER_SUCCESS,
+  GET_ORDER_FAILED,
+  GET_ORDER_REQUEST,
+  CLOSE_ORDER_INFO,
+} from "../actions/order";
 
 const initialState = {
   isOpen: false,
-  order: "",
+  order: null,
+  orderRequest: false,
+  orderFailed: false,
 };
 
 export const orderReducer = (state = initialState, action) => {
@@ -10,15 +17,25 @@ export const orderReducer = (state = initialState, action) => {
     case GET_ORDER_SUCCESS:
       return {
         ...state,
-        isOpen: true,
         order: action.payload,
+        isOpen: true,
+        orderFailed: false,
       };
     case CLOSE_ORDER_INFO:
       return {
         ...state,
         isOpen: false,
-        order: "",
+        order: null,
       };
+    case GET_ORDER_FAILED: {
+      return {
+        ...initialState,
+        orderFailed: true,
+      };
+    }
+    case GET_ORDER_REQUEST: {
+      return { ...state, orderRequest: true };
+    }
 
     default:
       return state;

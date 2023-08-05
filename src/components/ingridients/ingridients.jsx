@@ -1,17 +1,11 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import IngredientCard from "../ingridient-card/ingridient-card";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingridients.module.css";
-import PropTypes from "prop-types";
-import burgerIngridientsPropTypes from "../../utils/prop-types";
 import ingridientTypes from "../../utils/constants";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { IngridientsContex } from "../../context/IngridientsContext";
-import { ConstructorContext } from "../../context/ConstructorContex";
 import { useDispatch, useSelector } from "react-redux";
-import { getItems } from "../../services/actions";
-import { ADD_BUN, ADD_FILLING } from "../../services/actions/constructor";
 import {
   GET_INGRIDIENT_DETAILS,
   REMOVE_INGRIDIENT_DETAILS,
@@ -80,11 +74,10 @@ const Ingridients = () => {
   };
 
   useEffect(() => {
-    dispatch(getItems());
     const container = document.querySelector(".custom-scroll");
     const containerRect = container.getBoundingClientRect();
     setContainerTop(containerRect.top);
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
@@ -102,7 +95,7 @@ const Ingridients = () => {
 
       <div
         className={`${styles.wrapper} custom-scroll mt-10`}
-        onScroll={() => handleScroll()}
+        onScroll={handleScroll}
       >
         <h2
           id="bunHeader"

@@ -1,14 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
 import styles from "./order-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import acceptIcon from "../../images/accept_icon.svg";
 import PropTypes from "prop-types";
-import { placeOrder } from "../../utils/api";
-import { ConstructorContext } from "../../context/ConstructorContex";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const OrderDetails = ({ onClose }) => {
-  // const { order } = useContext(ConstructorContext);
   const order = useSelector((store) => store.order);
 
   return (
