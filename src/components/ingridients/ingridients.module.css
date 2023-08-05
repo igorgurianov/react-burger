@@ -9,3 +9,12 @@
   max-height: 66.29vh;
   overflow-y: scroll;
 }
+
+
+.activeTab {
+  color: brown;
+}
+
+.tabs {
+  display: flex;
+}
