@@ -1,3 +1,4 @@
+import React from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
 import burgerIngridientsPropTypes from "../../utils/prop-types";

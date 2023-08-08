@@ -1,14 +1,17 @@
-import PropTypes from "prop-types";
+import React from "react";
 import styles from "./nav-link.module.css";
+import PropTypes from "prop-types";
 
-const NavLink = ({ className, icon, text }) => {
-  return (
-    <a href="#" className={`${className} ${styles.link} pt-4 pb-4 pl-5 pr-5 `}>
-      {icon}
-      <span className="text text_type_main-default">{text}</span>
-    </a>
-  );
-};
+class NavLink extends React.Component {
+  render() {
+    return (
+      <div className={this.props.className}>
+        {this.props.icon}
+        <span className="text text_type_main-default">{this.props.text}</span>
+      </div>
+    );
+  }
+}
 
 NavLink.propTypes = {
   className: PropTypes.string.isRequired,

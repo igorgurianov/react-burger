@@ -9,7 +9,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const Main = () => {
   return (
-    <main className={`${styles.main} pb-10`}>
+    <main className={styles.main}>
       <BurgerIngredients />
       <BurgerConstructor />
     </main>
