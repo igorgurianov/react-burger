@@ -19,7 +19,6 @@ export function getOrder(ingridients) {
           dispatch({
             type: GET_ORDER_FAILED,
           });
-          // dispatch({})
         }
       })
       .catch((res) => {
