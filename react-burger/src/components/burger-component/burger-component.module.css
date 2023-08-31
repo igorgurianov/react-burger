@@ -1,0 +1,7 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  cursor: pointer;
+}
