@@ -1,0 +1,19 @@
+.link {
+  text-decoration: none;
+  color: #8585AD;
+  display: block;
+}
+
+.login {
+  justify-self: end;
+}
+
+.link.active {
+  color: #F2F2F3;
+}
+
+.tab {
+  gap: 8px;
+  display: flex;
+  align-items: center;
+}

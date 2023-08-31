@@ -17,15 +17,18 @@ import {
   ORDER_INGRIDIENTS,
   RESET_CONSTRUCTOR,
 } from "../../services/actions/constructor";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // Стор конструктора
   const { selectedBun, selectedFillings } = useSelector(
     (store) => store.burgerConstructor
   );
   // Стор заказа
-  const { isOpen, orderFailed } = useSelector((store) => store.order);
+  const { isOpen } = useSelector((store) => store.order);
+  const user = useSelector((store) => store.user.user);
 
   // Перенос начального ингридиента в конструктор
   const [{ isHover }, dropTarget] = useDrop({
@@ -47,13 +50,17 @@ const BurgerConstructor = () => {
 
   // Окно с номером заказа
   const onOpen = () => {
-    if (selectedBun) {
-      const constructor = [
-        selectedBun._id,
-        ...selectedFillings.map((item) => item._id),
-        selectedBun._id,
-      ];
-      dispatch(getOrder(constructor));
+    if (user) {
+      if (selectedBun) {
+        const constructor = [
+          selectedBun._id,
+          ...selectedFillings.map((item) => item._id),
+          selectedBun._id,
+        ];
+        dispatch(getOrder(constructor));
+      }
+    } else {
+      navigate("/login");
     }
   };
 
