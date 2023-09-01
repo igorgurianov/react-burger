@@ -10,18 +10,13 @@ export function getItems() {
     dispatch({ type: GET_ITEMS_REQUEST });
     api
       .getIngredients()
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: GET_ITEMS_SUCCESS,
-            payload: res.data,
-          });
-        } else {
-          dispatch({
-            type: GET_ITEMS_FAILED,
-          });
-        }
-      })
+      .then((res) =>
+        dispatch({
+          type: GET_ITEMS_SUCCESS,
+          payload: res.data,
+        })
+      )
+
       .catch((err) => {
         dispatch({
           type: GET_ITEMS_FAILED,

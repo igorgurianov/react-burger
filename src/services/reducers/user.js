@@ -3,11 +3,13 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   LOGIN_USER_SUCCESS,
-  SET_USER,
+  SET_USER_SUCCESS,
+  SET_USER_FAILED,
 } from "../actions/user";
 
 const initialState = {
   user: null,
+  setUserFailed: false,
   registerRequest: false,
   registerFailed: false,
   authChecked: false,
@@ -45,10 +47,11 @@ export const userReducer = (state = initialState, action) => {
       };
     }
 
-    case SET_USER: {
+    case SET_USER_SUCCESS: {
       if (action.payload) {
         return {
           ...state,
+          setUserFailed: false,
           user: {
             ...state.user,
             email: action.payload.user.email,
@@ -58,9 +61,16 @@ export const userReducer = (state = initialState, action) => {
       } else {
         return {
           ...state,
+          setUserFailed: false,
           user: null,
         };
       }
+    }
+    case SET_USER_FAILED: {
+      return {
+        ...state,
+        setUserFailed: true,
+      };
     }
 
     default:

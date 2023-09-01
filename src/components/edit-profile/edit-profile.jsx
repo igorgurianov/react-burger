@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import styles from "./edit-profile.module.css";
 import {
   Input,
   Button,
@@ -7,45 +7,30 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { changeInfo } from "../../services/actions/user";
+import { useForm } from "../../hooks/useForm";
 
 const EditProfile = () => {
-  const profile = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
-  const [form, setForm] = useState();
-
-  useEffect(() => {
-    setForm({
-      name: profile.name,
-      email: profile.email,
-      pass: "",
-    });
-  }, [profile]);
-
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+  const profile = useSelector((store) => store.user.user);
+  const { values, handleChange } = useForm({
+    name: profile.name,
+    email: profile.email,
+    pass: "",
+  });
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(changeInfo(form));
+    dispatch(changeInfo(values));
   };
 
   return (
     <div>
-      {form && (
-        <form
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "480px",
-            margin: "0",
-          }}
-        >
+      {values && (
+        <form className={styles.container}>
           <Input
-            onChange={handleInput}
+            onChange={handleChange}
             type="text"
-            value={form.name}
+            value={values.name}
             name={"name"}
             placeholder="Имя"
             extraClass="mb-2"
@@ -53,8 +38,8 @@ const EditProfile = () => {
             required
           />
           <EmailInput
-            onChange={handleInput}
-            value={form.email}
+            onChange={handleChange}
+            value={values.email}
             name={"email"}
             placeholder="Логин"
             extraClass="mb-2"
@@ -62,17 +47,16 @@ const EditProfile = () => {
             required
           />
           <PasswordInput
-            onChange={handleInput}
-            value={form.pass}
+            onChange={handleChange}
+            value={values.pass}
             icon="ShowIcon"
-            name={"pass"}
+            name={"password"}
           />
           <Button
             htmlType="button"
             type="primary"
             size="medium"
             extraClass="mt-6"
-            style={{ alignSelf: "center" }}
             onClick={(e) => handleFormSubmit(e)}
           >
             Сохранить

@@ -11,16 +11,10 @@ export function getOrder(ingridients) {
     api
       .placeOrder(ingridients)
       .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: GET_ORDER_SUCCESS,
-            payload: res.order.number,
-          });
-        } else {
-          dispatch({
-            type: GET_ORDER_FAILED,
-          });
-        }
+        dispatch({
+          type: GET_ORDER_SUCCESS,
+          payload: res.order.number,
+        });
       })
       .catch((res) => {
         dispatch({ type: GET_ORDER_FAILED });

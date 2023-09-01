@@ -1,5 +1,4 @@
 import {
-  CurrencyIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -13,11 +12,11 @@ import { getOrder } from "../../services/actions/order";
 import { CLOSE_ORDER_INFO } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import {
-  ADD_INGRIDIENT,
   ORDER_INGRIDIENTS,
   RESET_CONSTRUCTOR,
 } from "../../services/actions/constructor";
 import { useNavigate } from "react-router-dom";
+import { addIngridient } from "../../services/actions/constructor";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -43,7 +42,7 @@ const BurgerConstructor = () => {
 
   // Хендлер переноса начального ингридиента в конструктор
   const onDropHandler = (ingridient) => {
-    dispatch({ type: ADD_INGRIDIENT, payload: ingridient });
+    dispatch(addIngridient(ingridient));
   };
 
   const borderColor = isHover ? { border: "2px solid greenyellow" } : {};
@@ -122,14 +121,13 @@ const BurgerConstructor = () => {
 
       <div className={`${styles.info} mt-10 pr-4`}>
         <Total />
-        <CurrencyIcon type="primary" />
+
         <Button
           onClick={onOpen}
           htmlType="button"
           type="primary"
           size="large"
           style={{
-            marginLeft: "40px",
             cursor: selectedBun ? "pointer" : "not-allowed",
           }}
         >

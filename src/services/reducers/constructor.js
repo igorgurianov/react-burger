@@ -4,7 +4,6 @@ import {
   ADD_INGRIDIENT,
   RESET_CONSTRUCTOR,
 } from "../actions/constructor";
-import { v4 as uuidv4 } from "uuid";
 import ingridientTypes from "../../utils/constants";
 
 const initialState = {
@@ -17,19 +16,15 @@ const initialState = {
 export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGRIDIENT:
-      const uniqueId = uuidv4();
       if (action.payload.type === ingridientTypes.bun) {
         return {
           ...state,
-          selectedBun: { ...action.payload, uniqueId },
+          selectedBun: { ...action.payload },
         };
       } else {
         return {
           ...state,
-          selectedFillings: [
-            ...state.selectedFillings,
-            { ...action.payload, uniqueId },
-          ],
+          selectedFillings: [...state.selectedFillings, { ...action.payload }],
         };
       }
 

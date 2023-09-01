@@ -4,50 +4,32 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { SuggestLink } from "../UI/suggest-link/suggest-link";
+import { SuggestLink } from "../../UI/suggest-link/suggest-link";
 import { useDispatch } from "react-redux";
-import { registration } from "../services/actions/user";
+import { registration } from "../../services/actions/user";
+import { useForm } from "../../hooks/useForm";
+import styles from "./register.module.css";
 
 export const Register = () => {
   const dispatch = useDispatch();
-  const [form, setForm] = useState({ name: "", email: "", pass: "" });
-
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
+  const { values, handleChange } = useForm();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(registration(form));
+    dispatch(registration(values));
   };
 
   return (
     <div>
-      <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          maxWidth: "480px",
-          margin: "180px auto 0 auto",
-        }}
-        onSubmit={(e) => handleFormSubmit(e)}
-      >
-        <h3
-          style={{ textAlign: "center" }}
-          className="text text_type_main-medium"
-        >
+      <form className={styles.form} onSubmit={(e) => handleFormSubmit(e)}>
+        <h3 className={`${styles.header} text text_type_main-medium`}>
           Регистрация
         </h3>
         <Input
           type={"text"}
           placeholder={"Имя"}
-          onChange={handleInput}
-          value={form.name}
+          onChange={handleChange}
+          value={values.name}
           name={"name"}
           error={false}
           errorText={"Ошибка"}
@@ -57,8 +39,8 @@ export const Register = () => {
         />
         <EmailInput
           placeholder={"E-mail"}
-          onChange={handleInput}
-          value={form.email}
+          onChange={handleChange}
+          value={values.email}
           name={"email"}
           errorText={"Укажите корректный email"}
           extraClass="mt-6"
@@ -66,9 +48,9 @@ export const Register = () => {
         />
         <PasswordInput
           placeholder={"Пароль"}
-          onChange={handleInput}
-          value={form.pass}
-          name={"pass"}
+          onChange={handleChange}
+          value={values.password}
+          name={"password"}
           extraClass="mt-6"
           errorText={"Не меньше 6 символов"}
           required
@@ -77,16 +59,12 @@ export const Register = () => {
           htmlType="submit"
           type="primary"
           size="medium"
-          extraClass="mt-6"
-          style={{ alignSelf: "center" }}
+          extraClass={`${styles.submit} mt-6`}
         >
           Зарегистрироваться
         </Button>
       </form>
-      <div
-        className="mt-20"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
+      <div className={`${styles.suggest} mt-20`}>
         <p className="text text_type_main-default text_color_inactive mr-2">
           Уже зарегистрированы?
         </p>

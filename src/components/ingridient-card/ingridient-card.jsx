@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingridient-card.module.css";
 import burgerIngridientsPropTypes from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
-import { v4 as uuidv4 } from "uuid";
 import QtyCounter from "../qtyCounter/QtyCounter";
 import { Link, useLocation } from "react-router-dom";
 
@@ -13,7 +11,7 @@ const IngredientCard = ({ data, onOpen }) => {
 
   const { image, price, name, _id, type } = data;
 
-  const [{ isDrag }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: "ingridient",
     item: { data },
   });
