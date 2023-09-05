@@ -1,0 +1,27 @@
+.boards {
+  display: flex;
+  gap: 36px;
+}
+
+.board {
+  width: 206px;
+}
+
+.board__list {
+  margin: 24px 0 0;
+  list-style: none;
+  padding: 0;
+
+}
+
+.number_ready {
+  color: #00CCCC;
+}
+
+.glow {
+  text-shadow:
+    0px 4px 32px #3333FF80,
+    0px 0px 8px #3333FF40,
+    0px 0px 16px #3333FF40;
+
+}

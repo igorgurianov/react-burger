@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #1C1C21;
+  border-radius: 30px;
+}
+
+.twoColumnsLayout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  display: flex;
+  gap: 8px;
+}

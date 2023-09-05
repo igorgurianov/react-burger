@@ -17,6 +17,7 @@ import OrderHistory from "../order-history/order-history";
 import EditProfile from "../edit-profile/edit-profile";
 import { checkUserAuth } from "../../services/actions/user";
 import { useSelector } from "react-redux";
+import Orders from "../../pages/orders/orders";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,6 +72,7 @@ function App() {
           path="/ingredients/:ingredientId"
           element={<IngredientDetails style="page" />}
         />
+        <Route path="/orders" element={<Orders />} />
         {/* <Route path="*" element={<NotFound404 />} /> */}
       </Routes>
 
