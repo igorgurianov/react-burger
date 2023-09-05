@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./total.module.css";
 
 const Total = () => {
   const selectedFillings = useSelector(
@@ -16,8 +18,9 @@ const Total = () => {
   };
 
   return (
-    <div>
+    <div className={`${styles.container} mr-10`}>
       <p className="text text_type_digits-medium mr-3">{totalPrice()}</p>
+      <CurrencyIcon type="primary" />
     </div>
   );
 };

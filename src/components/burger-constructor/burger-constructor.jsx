@@ -1,5 +1,4 @@
 import {
-  CurrencyIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -13,19 +12,22 @@ import { getOrder } from "../../services/actions/order";
 import { CLOSE_ORDER_INFO } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import {
-  ADD_INGRIDIENT,
   ORDER_INGRIDIENTS,
   RESET_CONSTRUCTOR,
 } from "../../services/actions/constructor";
+import { useNavigate } from "react-router-dom";
+import { addIngridient } from "../../services/actions/constructor";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // Стор конструктора
   const { selectedBun, selectedFillings } = useSelector(
     (store) => store.burgerConstructor
   );
   // Стор заказа
-  const { isOpen, orderFailed } = useSelector((store) => store.order);
+  const { isOpen } = useSelector((store) => store.order);
+  const user = useSelector((store) => store.user.user);
 
   // Перенос начального ингридиента в конструктор
   const [{ isHover }, dropTarget] = useDrop({
@@ -40,20 +42,24 @@ const BurgerConstructor = () => {
 
   // Хендлер переноса начального ингридиента в конструктор
   const onDropHandler = (ingridient) => {
-    dispatch({ type: ADD_INGRIDIENT, payload: ingridient });
+    dispatch(addIngridient(ingridient));
   };
 
   const borderColor = isHover ? { border: "2px solid greenyellow" } : {};
 
   // Окно с номером заказа
   const onOpen = () => {
-    if (selectedBun) {
-      const constructor = [
-        selectedBun._id,
-        ...selectedFillings.map((item) => item._id),
-        selectedBun._id,
-      ];
-      dispatch(getOrder(constructor));
+    if (user) {
+      if (selectedBun) {
+        const constructor = [
+          selectedBun._id,
+          ...selectedFillings.map((item) => item._id),
+          selectedBun._id,
+        ];
+        dispatch(getOrder(constructor));
+      }
+    } else {
+      navigate("/login");
     }
   };
 
@@ -115,14 +121,13 @@ const BurgerConstructor = () => {
 
       <div className={`${styles.info} mt-10 pr-4`}>
         <Total />
-        <CurrencyIcon type="primary" />
+
         <Button
           onClick={onOpen}
           htmlType="button"
           type="primary"
           size="large"
           style={{
-            marginLeft: "40px",
             cursor: selectedBun ? "pointer" : "not-allowed",
           }}
         >

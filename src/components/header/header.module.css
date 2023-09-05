@@ -3,3 +3,28 @@
   max-width: 1920px;
   background-color: #1C1C21;
 }
+
+.navBar {
+  margin: auto;
+  max-width: 1280px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.navList {
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  list-style: none;
+  display: flex;
+}
+
+.logo {
+  justify-self: center;
+}
+
+
+.login {
+  justify-self: end;
+}

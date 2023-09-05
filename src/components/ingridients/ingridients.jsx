@@ -3,29 +3,20 @@ import IngredientCard from "../ingridient-card/ingridient-card";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingridients.module.css";
 import ingridientTypes from "../../utils/constants";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  GET_INGRIDIENT_DETAILS,
-  REMOVE_INGRIDIENT_DETAILS,
-} from "../../services/actions/details";
+import { GET_INGRIDIENT_DETAILS } from "../../services/actions/details";
 
 const Ingridients = () => {
   const dispatch = useDispatch();
 
   const allIngridients = useSelector((store) => store.ingridients);
-  const ingridientInfo = useSelector((store) => store.details);
+
   const [positionList, setPositionList] = useState({});
   const [containerTop, setContainerTop] = useState(0);
   const [activeTab, setActiveTab] = useState("bunHeader");
 
   const onOpen = (ingridient) => {
     dispatch({ type: GET_INGRIDIENT_DETAILS, payload: ingridient });
-  };
-
-  const onClose = () => {
-    dispatch({ type: REMOVE_INGRIDIENT_DETAILS, payload: {} });
   };
 
   const checkArray = (ingridient, type) => {
@@ -136,15 +127,6 @@ const Ingridients = () => {
             <IngredientCard key={index} data={ingridient} onOpen={onOpen} />
           ))}
         </div>
-
-        {ingridientInfo.state && (
-          <Modal onClose={onClose}>
-            <IngredientDetails
-              ingridient={ingridientInfo.state}
-              onClose={onClose}
-            />
-          </Modal>
-        )}
       </div>
     </div>
   );

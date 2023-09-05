@@ -20,6 +20,7 @@ export const orderReducer = (state = initialState, action) => {
         order: action.payload,
         isOpen: true,
         orderFailed: false,
+        orderRequest: false,
       };
     case CLOSE_ORDER_INFO:
       return {

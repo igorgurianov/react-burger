@@ -1,0 +1,24 @@
+.link {
+  display: flex;
+  text-decoration: none;
+
+  height: 64px;
+  width: 320px;
+  align-items: center;
+}
+
+.link:hover {
+  opacity: .75;
+}
+
+.active {
+  color: #F2F2F3;
+}
+
+.inactive {
+  color: #8585AD;
+}
+
+.logout {
+  cursor: pointer;
+}
