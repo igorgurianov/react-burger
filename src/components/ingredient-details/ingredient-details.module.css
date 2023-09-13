@@ -1,5 +1,4 @@
 .wrapper {
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +8,6 @@
 
 .title {
   min-width: 640px;
-
 }
 
 .image {

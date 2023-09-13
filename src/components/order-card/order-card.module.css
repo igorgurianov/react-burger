@@ -5,6 +5,16 @@
   border-radius: 30px;
 }
 
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
+
+}
+
+.link:hover {
+  opacity: .85;
+}
+
 .twoColumnsLayout {
   display: flex;
   justify-content: space-between;
@@ -14,4 +24,75 @@
 .price {
   display: flex;
   gap: 8px;
+}
+
+
+.ingredients {
+  display: flex;
+  align-items: center
+}
+
+.imgOverlay {
+  box-sizing: border-box;
+  height: 64px;
+  width: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #131316;
+  border: 2px solid #801AB2;
+  border-radius: 50%;
+}
+
+.img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+}
+
+.imgOverlay:not(:first-child) {
+  margin-left: -15px;
+}
+
+.overrun {
+  composes: imgOverlay;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  right: 10px;
+
+}
+
+.overrunNumber {
+  position: absolute;
+  z-index: 10;
+  color: #F2F2F3
+}
+
+.overrunImg {
+  composes: img;
+  margin-left: auto;
+}
+
+.overrunOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #1C1C21;
+  border-radius: 50%;
+  opacity: .5;
+}
+
+.done {
+  color: #00CCCC
+}
+
+.pending {
+  color: #F2F2F3;
+}
+
+.loading {
+  color: red;
 }

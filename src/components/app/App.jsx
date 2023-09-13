@@ -17,19 +17,25 @@ import OrderHistory from "../order-history/order-history";
 import EditProfile from "../edit-profile/edit-profile";
 import { checkUserAuth } from "../../services/actions/user";
 import { useSelector } from "react-redux";
-import Orders from "../../pages/orders/orders";
+import Feed from "../../pages/feed/feed";
+import OrderInfo from "../../pages/order-info/order-info";
+import PersonalHistory from "../personal-history/personal-history";
 
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { order } = useSelector((store) => store.orderDetails);
+  // const { order: historyOrder } = useSelector((store) => store.OrderHistory);
+
   const background = location.state && location.state.background;
 
-  const { orderRequest } = useSelector((store) => store.order);
+  const orderFeed = useSelector((store) => store.orderFeed.orders);
+  const orderHistory = useSelector((store) => store.orderHistory.orders);
 
   const handleModalClose = () => {
-    dispatch({ type: REMOVE_INGRIDIENT_DETAILS, payload: {} });
+    // dispatch({ type: REMOVE_INGRIDIENT_DETAILS, payload: {} });
     navigate(-1);
   };
 
@@ -41,10 +47,10 @@ function App() {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const loading = orderRequest ? { cursor: "wait" } : { cursor: "auto" };
+  // const loading = orderRequest ? { cursor: "wait" } : { cursor: "auto" };
 
   return (
-    <div style={loading}>
+    <div>
       <AppHeader className="mb-4" />
       <Routes location={background || location}>
         <Route path="/" element={<Home />} />
@@ -65,14 +71,18 @@ function App() {
 
         <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
           <Route path="" element={<EditProfile />} />
-          <Route path="orders" element={<OrderHistory />} />
+          <Route path="orders" element={<PersonalHistory />} />
+
+          <Route path="orders/:id" element={<OrderInfo />} style="page" />
         </Route>
 
         <Route
           path="/ingredients/:ingredientId"
           element={<IngredientDetails style="page" />}
         />
-        <Route path="/orders" element={<Orders />} />
+
+        <Route path="/feed" element={<Feed />}></Route>
+        <Route path="/feed/:id" element={<OrderInfo style="page" />} />
         {/* <Route path="*" element={<NotFound404 />} /> */}
       </Routes>
 
@@ -83,6 +93,30 @@ function App() {
             element={
               <Modal onClose={handleModalClose}>
                 <IngredientDetails onClose={handleModalClose} style="popup" />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {background && orderFeed && (
+        <Routes>
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClose={handleModalClose}>
+                <OrderInfo onClose={handleModalClose} style="popup" />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {background && orderHistory && (
+        <Routes>
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal onClose={handleModalClose}>
+                <OrderInfo onClose={handleModalClose} style="popup" />
               </Modal>
             }
           />

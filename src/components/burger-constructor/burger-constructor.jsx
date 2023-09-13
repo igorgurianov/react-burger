@@ -29,6 +29,8 @@ const BurgerConstructor = () => {
   const { isOpen } = useSelector((store) => store.order);
   const user = useSelector((store) => store.user.user);
 
+  const { orderRequest } = useSelector((store) => store.order);
+
   // Перенос начального ингридиента в конструктор
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingridient",
@@ -131,7 +133,7 @@ const BurgerConstructor = () => {
             cursor: selectedBun ? "pointer" : "not-allowed",
           }}
         >
-          Оформить заказ
+          {!orderRequest ? "Оформить заказ" : "Создаем заказ ..."}
         </Button>
       </div>
       {isOpen && (

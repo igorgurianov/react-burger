@@ -23,7 +23,7 @@ const AppHeader = () => {
             <NavigationButton
               text="Лента заказов"
               icon={<ListIcon />}
-              to={"/orders"}
+              to={"/feed"}
             />
           </li>
         </ul>
