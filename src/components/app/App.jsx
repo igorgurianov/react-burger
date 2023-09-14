@@ -90,10 +90,6 @@ function App() {
               </Modal>
             }
           />
-        </Routes>
-      )}
-      {background && orderFeed && (
-        <Routes>
           <Route
             path="/feed/:id"
             element={
@@ -102,10 +98,6 @@ function App() {
               </Modal>
             }
           />
-        </Routes>
-      )}
-      {background && orderHistory && (
-        <Routes>
           <Route
             path="/profile/orders/:id"
             element={
