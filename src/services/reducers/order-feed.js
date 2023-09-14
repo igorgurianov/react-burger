@@ -1,10 +1,9 @@
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
+  WS_ORDER_FEED_CLOSE,
+  WS_ORDER_FEED_ERROR,
+  WS_ORDER_FEED_MESSAGE,
+  WS_ORDER_FEED_OPEN,
+  WS_ORDER_FEED_CONNECTING,
 } from "../actions/order-feed";
 
 const initialState = {
@@ -16,11 +15,11 @@ const initialState = {
 
 export const orderFeedReducer = (state = initialState, action) => {
   switch (action.type) {
-    case WS_CONNECTION_START: {
+    case WS_ORDER_FEED_CONNECTING: {
       return { ...state, isConnecting: true };
     }
 
-    case WS_CONNECTION_SUCCESS:
+    case WS_ORDER_FEED_OPEN:
       return {
         ...state,
         error: undefined,
@@ -28,14 +27,14 @@ export const orderFeedReducer = (state = initialState, action) => {
         isConnecting: false,
       };
 
-    case WS_CONNECTION_ERROR:
+    case WS_ORDER_FEED_ERROR:
       return {
         ...state,
         error: action.payload,
         wsConnected: false,
       };
 
-    case WS_CONNECTION_CLOSED:
+    case WS_ORDER_FEED_CLOSE:
       return {
         ...state,
         error: undefined,
@@ -43,7 +42,7 @@ export const orderFeedReducer = (state = initialState, action) => {
         orders: [],
       };
 
-    case WS_GET_MESSAGE:
+    case WS_ORDER_FEED_MESSAGE:
       return {
         ...state,
         error: undefined,

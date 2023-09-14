@@ -4,11 +4,10 @@ export const socketMiddleware = (wsActions) => {
 
     return (next) => (action) => {
       const { dispatch } = store;
-      const { type, payload } = action;
+      const { type } = action;
       const {
         wsConnect,
         wsSendMessage,
-        wsInit,
         onOpen,
         onClose,
         onError,
@@ -18,45 +17,40 @@ export const socketMiddleware = (wsActions) => {
       } = wsActions;
 
       //для создания объекта класса WebSocket:
-      if (type === wsInit) {
+      if (type === wsConnect) {
         socket = new WebSocket(action.payload);
-        // dispatch({ type: wsInit });
+        dispatch({ type: wsConnecting });
       }
 
       // если вебсокет создан, надо подписаться на события
       if (socket) {
-        socket.onopen = (event) => {
+        socket.onopen = () => {
           dispatch({ type: onOpen });
         };
 
-        socket.onerror = (event) => {
+        socket.onerror = () => {
           dispatch({ type: onError });
         };
 
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-          const { success, ...restParsedData } = parsedData;
 
-          dispatch({ type: onMessage, payload: restParsedData });
+          dispatch({ type: onMessage, payload: parsedData });
         };
 
-        socket.onclose = (event) => {
+        socket.onclose = () => {
           dispatch({ type: onClose });
         };
 
-        if (wsSendMessage && type === wsSendMessage) {
-          const message = {
-            ...payload,
-            // token: user.token
-          };
-          socket.send(JSON.stringify(message));
+        if (type === wsSendMessage) {
+          socket.send(JSON.stringify(action.payload));
         }
 
-        // if (wsDisconnect.type === action.type) {
-        //   socket.close();
-        //   socket = null;
-        // }
+        if (type === wsDisconnect) {
+          socket.close();
+          socket = null;
+        }
       }
 
       next(action);

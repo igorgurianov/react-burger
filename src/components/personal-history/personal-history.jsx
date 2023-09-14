@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import OrderHistory from "../order-history/order-history";
 import {
-  WS_HISTORY_START,
-  WS_HISTORY_CLOSED,
+  wsHistoryConnect,
+  wsHistoryDisconnect,
 } from "../../services/actions/order-history";
 import { ORDER_HISTORY_URL } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,12 +14,9 @@ const PersonalHistory = () => {
   const token = localStorage.getItem("accessToken").substring(7);
 
   useEffect(() => {
-    dispatch({
-      type: WS_HISTORY_START,
-      payload: `${ORDER_HISTORY_URL}?token=${token}`,
-    });
+    dispatch(wsHistoryConnect(`${ORDER_HISTORY_URL}?token=${token}`));
 
-    return () => dispatch({ type: WS_HISTORY_CLOSED });
+    return () => dispatch(wsHistoryDisconnect());
   }, [dispatch]);
 
   if (isConnecting) {

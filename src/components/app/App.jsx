@@ -6,14 +6,12 @@ import { Home } from "../../pages/home";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { REMOVE_INGRIDIENT_DETAILS } from "../../services/actions/details";
 import { Login } from "../../pages/login/login";
 import { Register } from "../../pages/register/register";
 import { ForgotPassword } from "../../pages/forgot-password/forgot-password";
 import { ResetPassword } from "../../pages/reset-password/reset-password";
 import { Profile } from "../../pages/profile/profile";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
-import OrderHistory from "../order-history/order-history";
 import EditProfile from "../edit-profile/edit-profile";
 import { checkUserAuth } from "../../services/actions/user";
 import { useSelector } from "react-redux";
@@ -26,16 +24,11 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { order } = useSelector((store) => store.orderDetails);
-  // const { order: historyOrder } = useSelector((store) => store.OrderHistory);
-
   const background = location.state && location.state.background;
-
   const orderFeed = useSelector((store) => store.orderFeed.orders);
   const orderHistory = useSelector((store) => store.orderHistory.orders);
 
   const handleModalClose = () => {
-    // dispatch({ type: REMOVE_INGRIDIENT_DETAILS, payload: {} });
     navigate(-1);
   };
 
@@ -46,8 +39,6 @@ function App() {
   useEffect(() => {
     dispatch(checkUserAuth());
   }, [dispatch]);
-
-  // const loading = orderRequest ? { cursor: "wait" } : { cursor: "auto" };
 
   return (
     <div>
@@ -72,9 +63,12 @@ function App() {
         <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
           <Route path="" element={<EditProfile />} />
           <Route path="orders" element={<PersonalHistory />} />
-
-          <Route path="orders/:id" element={<OrderInfo />} style="page" />
         </Route>
+
+        <Route
+          path="/profile/orders/:id"
+          element={<OnlyAuth component={<OrderInfo style="page" />} />}
+        />
 
         <Route
           path="/ingredients/:ingredientId"

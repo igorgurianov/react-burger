@@ -1,9 +1,9 @@
 import {
-  WS_HISTORY_CLOSED,
+  WS_HISTORY_CONNECTING,
+  WS_HISTORY_CLOSE,
   WS_HISTORY_ERROR,
-  WS_HISTORY_START,
-  WS_HISTORY_SUCCESS,
-  WS_HISTORY_GET_MESSAGE,
+  WS_HISTORY_MESSAGE,
+  WS_HISTORY_OPEN,
 } from "../actions/order-history";
 
 const initialState = {
@@ -15,11 +15,11 @@ const initialState = {
 
 export const orderHistoryReducer = (state = initialState, action) => {
   switch (action.type) {
-    case WS_HISTORY_START: {
+    case WS_HISTORY_CONNECTING: {
       return { ...state, isConnecting: true };
     }
 
-    case WS_HISTORY_SUCCESS:
+    case WS_HISTORY_OPEN:
       return {
         ...state,
         error: undefined,
@@ -34,7 +34,7 @@ export const orderHistoryReducer = (state = initialState, action) => {
         wsConnected: false,
       };
 
-    case WS_HISTORY_CLOSED:
+    case WS_HISTORY_CLOSE:
       return {
         ...state,
         error: undefined,
@@ -42,7 +42,7 @@ export const orderHistoryReducer = (state = initialState, action) => {
         orders: [],
       };
 
-    case WS_HISTORY_GET_MESSAGE:
+    case WS_HISTORY_MESSAGE:
       return {
         ...state,
         error: undefined,

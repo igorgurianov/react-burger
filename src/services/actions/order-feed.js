@@ -1,7 +1,16 @@
-export const WS_CONNECTION_START = "WS_CONNECTION_START";
-export const WS_CONNECTION_SUCCESS = "WS_CONNECTION_SUCCESS";
-export const WS_CONNECTION_ERROR = "WS_CONNECTION_ERROR";
-export const WS_CONNECTION_CLOSED = "WS_CONNECTION_CLOSED";
+export const WS_ORDER_FEED_OPEN = "WS_ORDER_FEED_OPEN";
+export const WS_ORDER_FEED_ERROR = "WS_ORDER_FEED_ERROR";
+export const WS_ORDER_FEED_CLOSE = "WS_ORDER_FEED_CLOSE";
+export const WS_ORDER_FEED_MESSAGE = "WS_ORDER_FEED_MESSAGE";
+export const WS_ORDER_FEED_CONNECT = "WS_ORDER_FEED_CONNECT";
+export const WS_ORDER_FEED_DISCONNECT = "WS_ORDER_FEED_DISCONNECT";
+export const WS_ORDER_FEED_CONNECTING = "WS_ORDER_FEED_CONNECTING";
 
-export const WS_GET_MESSAGE = "WS_GET_MESSAGE";
-export const WS_SEND_MESSAGE = "WS_SEND_MESSAGE";
+export const wsFeedConnect = (url) => ({
+  type: WS_ORDER_FEED_CONNECT,
+  payload: url,
+});
+
+export const wsFeedDisconnect = () => ({
+  type: WS_ORDER_FEED_DISCONNECT,
+});

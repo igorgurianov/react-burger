@@ -3,11 +3,11 @@ import OrderHistory from "../../components/order-history/order-history";
 import StatusTableau from "../../components/status-tableau/status-tableau";
 
 import { ORDER_FEED_URL } from "../../utils/api";
-
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED,
+  wsFeedConnect,
+  wsFeedDisconnect,
 } from "../../services/actions/order-feed";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -17,9 +17,9 @@ const Feed = () => {
   const { isConnecting } = useSelector((store) => store.orderFeed);
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START, payload: ORDER_FEED_URL });
+    dispatch(wsFeedConnect(ORDER_FEED_URL));
 
-    return () => dispatch({ type: WS_CONNECTION_CLOSED });
+    return () => dispatch(wsFeedDisconnect());
   }, [dispatch]);
 
   if (isConnecting) {

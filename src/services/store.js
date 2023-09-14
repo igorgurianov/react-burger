@@ -3,20 +3,22 @@ import { rootReducer } from "./reducers";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 import {
-  WS_CONNECTION_START,
-  WS_SEND_MESSAGE,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_GET_MESSAGE,
+  WS_ORDER_FEED_CONNECT,
+  WS_ORDER_FEED_DISCONNECT,
+  WS_ORDER_FEED_CONNECTING,
+  WS_ORDER_FEED_OPEN,
+  WS_ORDER_FEED_CLOSE,
+  WS_ORDER_FEED_ERROR,
+  WS_ORDER_FEED_MESSAGE,
 } from "./actions/order-feed";
 import {
-  WS_HISTORY_CLOSED,
-  WS_HISTORY_START,
-  WS_HISTORY_GET_MESSAGE,
-  WS_HISTORY_SUCCESS,
+  WS_HISTORY_CONNECT,
+  WS_HISTORY_DISCONNECT,
+  WS_HISTORY_CONNECTING,
+  WS_HISTORY_OPEN,
+  WS_HISTORY_CLOSE,
   WS_HISTORY_ERROR,
-  WS_HISTORY_SEND_MESSAGE,
+  WS_HISTORY_MESSAGE,
 } from "./actions/order-history";
 
 const composeEnhancers =
@@ -25,21 +27,23 @@ const composeEnhancers =
     : compose;
 
 const orderFeedActions = {
-  wsInit: WS_CONNECTION_START,
-  wsSendMessage: WS_SEND_MESSAGE,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE,
+  wsConnect: WS_ORDER_FEED_CONNECT,
+  wsDisconnect: WS_ORDER_FEED_DISCONNECT,
+  wsConnecting: WS_ORDER_FEED_CONNECTING,
+  onOpen: WS_ORDER_FEED_OPEN,
+  onClose: WS_ORDER_FEED_CLOSE,
+  onError: WS_ORDER_FEED_ERROR,
+  onMessage: WS_ORDER_FEED_MESSAGE,
 };
 
 const orderHistoryActions = {
-  wsInit: WS_HISTORY_START,
-  wsSendMessage: WS_HISTORY_SEND_MESSAGE,
-  onOpen: WS_HISTORY_SUCCESS,
-  onClose: WS_HISTORY_CLOSED,
+  wsConnect: WS_HISTORY_CONNECT,
+  wsDisconnect: WS_HISTORY_DISCONNECT,
+  wsConnecting: WS_HISTORY_CONNECTING,
+  onOpen: WS_HISTORY_OPEN,
+  onClose: WS_HISTORY_CLOSE,
   onError: WS_HISTORY_ERROR,
-  onMessage: WS_HISTORY_GET_MESSAGE,
+  onMessage: WS_HISTORY_MESSAGE,
 };
 
 export const store = createStore(

@@ -35,7 +35,10 @@ const StatusTableau = () => {
               {orders.map((order) => {
                 if (order.status === "pending") {
                   return (
-                    <li className="text text_type_digits-default">
+                    <li
+                      className="text text_type_digits-default"
+                      key={order.number}
+                    >
                       {order.number}
                     </li>
                   );
