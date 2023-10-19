@@ -1,16 +1,26 @@
+import { FC } from "react";
 import styles from "./order-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import acceptIcon from "../../images/accept_icon.svg";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-const OrderDetails = ({ onClose }) => {
-  const order = useSelector((store) => store.order);
+// interface IOrderDetails {
+//   onClose: () => void;
+// }
+
+// interface IOrder {
+//   order: Array;
+// }
+
+const OrderDetails: FC<IOrderDetails> = ({ onClose }) => {
+  //const order = useSelector((store): Array => store.order);
+  const order: IOrder | undefined = useSelector((store) => store.order);
 
   return (
     <div className={`${styles.container} pt-30 pb-30 pr-25 pl-25`}>
       <div className={styles.closeIcon} onClick={() => onClose()}>
-        <CloseIcon />
+        <CloseIcon type="primary" />
       </div>
       {order && (
         <>

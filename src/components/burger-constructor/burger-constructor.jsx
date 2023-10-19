@@ -7,7 +7,7 @@ import BurgerComponent from "../burger-component/burger-component.jsx";
 import Total from "../total/total";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
+//import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../../services/actions/order";
 import { CLOSE_ORDER_INFO } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
@@ -17,19 +17,31 @@ import {
 } from "../../services/actions/constructor";
 import { useNavigate } from "react-router-dom";
 import { addIngridient } from "../../services/actions/constructor";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { TIngredient } from "../../services/types/data";
+import { FC } from "react";
+import { any } from "prop-types";
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   // Стор конструктора
-  const { selectedBun, selectedFillings } = useSelector(
+  // const { selectedBun, selectedFillings } = useSelectorTyped(
+  //   (store) => store.burgerConstructor
+  // );
+
+  const { selectedBun, selectedFillings } = useAppSelector(
     (store) => store.burgerConstructor
   );
-  // Стор заказа
-  const { isOpen } = useSelector((store) => store.order);
-  const user = useSelector((store) => store.user.user);
+  // as {
+  //   selectedBun: TIngredient;
+  //   selectedFillings: TIngredient[];
+  // };
 
-  const { orderRequest } = useSelector((store) => store.order);
+  // Стор заказа
+  const user = useAppSelector((store) => store.user.user);
+  const { orderRequest, isOpen } = useAppSelector((store) => store.order);
 
   // Перенос начального ингридиента в конструктор
   const [{ isHover }, dropTarget] = useDrop({
@@ -45,6 +57,7 @@ const BurgerConstructor = () => {
   // Хендлер переноса начального ингридиента в конструктор
   const onDropHandler = (ingridient) => {
     dispatch(addIngridient(ingridient));
+    console.log(ingridient);
   };
 
   const borderColor = isHover ? { border: "2px solid greenyellow" } : {};

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { FC, useRef } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -8,12 +8,26 @@ import PropTypes from "prop-types";
 import { REMOVE_FILLING } from "../../services/actions/constructor";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
+import { TIngredient } from "../../services/types/data";
+// const burgerComponentPropTypes = {
+//   text: PropTypes.string.isRequired,
+//   thumbnail: PropTypes.string.isRequired,
+//   price: PropTypes.number.isRequired,
+// };
 
-const burgerComponentPropTypes = {
-  text: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-};
+// interface IBurgerComponent {
+//   isLocked: boolean;
+//   data: any;
+//   uniqueId: string;
+//   index: string;
+//   _id: string;
+//   moveCard: () => void;
+// }
+
+// interface IUseDrop {
+//   type: any;
+//   index: any;
+// }
 
 const BurgerComponent = ({
   isLocked,
@@ -98,6 +112,6 @@ const BurgerComponent = ({
   );
 };
 
-BurgerComponent.propTypes = burgerComponentPropTypes.isRequired;
+//BurgerComponent.propTypes = burgerComponentPropTypes.isRequired;
 
 export default BurgerComponent;
