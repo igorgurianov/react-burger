@@ -3,19 +3,14 @@ import styles from "./order-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import acceptIcon from "../../images/accept_icon.svg";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks";
 
-// interface IOrderDetails {
-//   onClose: () => void;
-// }
-
-// interface IOrder {
-//   order: Array;
-// }
+interface IOrderDetails {
+  onClose: () => void;
+}
 
 const OrderDetails: FC<IOrderDetails> = ({ onClose }) => {
-  //const order = useSelector((store): Array => store.order);
-  const order: IOrder | undefined = useSelector((store) => store.order);
+  const order = useAppSelector((store) => store.order);
 
   return (
     <div className={`${styles.container} pt-30 pb-30 pr-25 pl-25`}>
@@ -40,10 +35,6 @@ const OrderDetails: FC<IOrderDetails> = ({ onClose }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  onClose: PropTypes.func.isRequired,
 };
 
 export default OrderDetails;

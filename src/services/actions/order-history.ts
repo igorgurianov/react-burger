@@ -36,6 +36,7 @@ export interface IWsHistoryMessage {
 
 export type TOrderHistoryActions =
   | IWsHistoryDisconnect
+  | IWsHistoryConnect
   | IWsHistoryConnecting
   | IWsHistoryOpen
   | IWsHistoryClose

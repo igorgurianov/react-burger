@@ -1,5 +1,5 @@
 import { api } from "../../utils/api";
-import { IRegisterUser } from "../types/data";
+import { ILogin, IRegisterUser } from "../types/data";
 
 export const REGISTER_USER_REQUEST: "REGISTER_USER_REQUEST" =
   "REGISTER_USER_REQUEST";
@@ -62,12 +62,12 @@ export type TUserActions =
   | ISetUserSuccess
   | ISetUserFailed;
 
-export function registration({ name, email, pass }: IRegisterUser) {
+export function registration(values: IRegisterUser) {
   return function (dispatch: any) {
     dispatch({ type: REGISTER_USER_REQUEST });
 
     api
-      .registration(name, email, pass)
+      .registration(values)
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
@@ -83,11 +83,11 @@ export function registration({ name, email, pass }: IRegisterUser) {
   };
 }
 
-export function userLogin(email: string, pass: string) {
+export function userLogin(values: ILogin) {
   return function (dispatch: any) {
     dispatch({ type: LOGIN_USER_REQUEST });
     api
-      .login(email, pass)
+      .login(values)
       .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);

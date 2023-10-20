@@ -1,10 +1,19 @@
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import ingridientTypes from "../../utils/constants";
+import { FC } from "react";
+import { useAppSelector } from "../../hooks";
 
-const QtyCounter = ({ id, type }) => {
-  const { selectedFillings } = useSelector((store) => store.burgerConstructor);
-  const { selectedBun } = useSelector((store) => store.burgerConstructor);
+type Props = {
+  id: string;
+  type: string;
+};
+
+const QtyCounter: FC<Props> = ({ id, type }) => {
+  const { selectedFillings } = useAppSelector(
+    (store) => store.burgerConstructor
+  );
+  const { selectedBun } = useAppSelector((store) => store.burgerConstructor);
 
   const countedNumber = () => {
     if (selectedBun && type === ingridientTypes.bun) {

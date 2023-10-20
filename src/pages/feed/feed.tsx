@@ -10,28 +10,29 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 const Feed = () => {
-  const dispatch = useDispatch();
-  const { orders } = useSelector((store) => store.orderFeed.orders);
-  const { isConnecting } = useSelector((store) => store.orderFeed);
+  const dispatch = useAppDispatch();
+  const { orders } = useAppSelector((store) => store.orderFeed.orders);
+  const { isConnecting } = useAppSelector((store) => store.orderFeed);
 
   useEffect(() => {
     dispatch(wsFeedConnect(ORDER_FEED_URL));
 
-    return () => dispatch(wsFeedDisconnect());
+    return () => {
+      dispatch(wsFeedDisconnect());
+    };
   }, [dispatch]);
 
-  if (isConnecting) {
+  if (isConnecting && !orders) {
     return (
       <div className={styles.container}>
         <h3 className="text text_type_main-large">Лента заказов</h3>
         <p className="text text_type_main-medium mt-6">Загрузка ...</p>
       </div>
     );
-  }
-
-  if (orders && !isConnecting) {
+  } else {
     return (
       <div className={styles.container}>
         <h3 className="text text_type_main-large">Лента заказов</h3>

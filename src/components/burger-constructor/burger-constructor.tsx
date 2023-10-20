@@ -3,7 +3,7 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import BurgerComponent from "../burger-component/burger-component.jsx";
+import BurgerComponent from "../burger-component/burger-component";
 import Total from "../total/total";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
@@ -21,23 +21,17 @@ import { useAppSelector, useAppDispatch } from "../../hooks";
 import { TIngredient } from "../../services/types/data";
 import { FC } from "react";
 import { any } from "prop-types";
+import type { Identifier, XYCoord } from "dnd-core";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // Стор конструктора
-  // const { selectedBun, selectedFillings } = useSelectorTyped(
-  //   (store) => store.burgerConstructor
-  // );
 
   const { selectedBun, selectedFillings } = useAppSelector(
     (store) => store.burgerConstructor
   );
-  // as {
-  //   selectedBun: TIngredient;
-  //   selectedFillings: TIngredient[];
-  // };
 
   // Стор заказа
   const user = useAppSelector((store) => store.user.user);
@@ -49,13 +43,13 @@ const BurgerConstructor = () => {
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(ingridient) {
+    drop(ingridient: any) {
       onDropHandler(ingridient.data);
     },
   });
 
   // Хендлер переноса начального ингридиента в конструктор
-  const onDropHandler = (ingridient) => {
+  const onDropHandler = (ingridient: TIngredient) => {
     dispatch(addIngridient(ingridient));
     console.log(ingridient);
   };
@@ -84,7 +78,7 @@ const BurgerConstructor = () => {
   };
 
   // Передвижение внутри констуктора
-  const moveCard = (dragIndex, hoverIndex) => {
+  const moveCard = (dragIndex: number, hoverIndex: number) => {
     dispatch({ type: ORDER_INGRIDIENTS, payload: { dragIndex, hoverIndex } });
   };
 
@@ -108,7 +102,7 @@ const BurgerConstructor = () => {
 
         {selectedFillings && (
           <ul className={`${styles.list} custom-scroll pr-2`}>
-            {selectedFillings.map((ingridient, index) => {
+            {selectedFillings.map((ingridient, index: any) => {
               return (
                 <BurgerComponent
                   key={ingridient.uniqueId}

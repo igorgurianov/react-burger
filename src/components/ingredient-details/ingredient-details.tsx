@@ -1,23 +1,37 @@
+import { FC } from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { TIngredient } from "../../services/types/data";
 
-const IngredientDetails = ({ style }) => {
-  const allIngridients = useSelector((store) => store.ingridients.allItems);
+export interface IIngredientDetails {
+  style: string;
+}
+
+export const IngredientDetails: FC<IIngredientDetails> = ({ style }) => {
+  const allIngridients = useAppSelector((store) => store.ingridients.allItems);
   const id = useParams();
 
-  const [ingridient, setIngridient] = useState();
+  const [ingridient, setIngridient] = useState<TIngredient | null>(null);
 
   useEffect(() => {
     setIngridient(
-      allIngridients.find((ingridient) => ingridient._id === id.ingredientId)
+      allIngridients.find(
+        (ingridient: TIngredient) => ingridient._id === id.ingredientId
+      )
     );
   }, [ingridient, allIngridients, id]);
 
-  return (
-    ingridient && (
+  if (!ingridient) {
+    return (
+      <h3 className={`${styles.header} text text_type_main-large`}>
+        Загрузка ...
+      </h3>
+    );
+  } else {
+    return (
       <div
         className={`${styles.wrapper} pt-10 pb-15 pl-10 pr-10`}
         style={
@@ -65,12 +79,6 @@ const IngredientDetails = ({ style }) => {
           </li>
         </ul>
       </div>
-    )
-  );
+    );
+  }
 };
-
-IngredientDetails.propTypes = {
-  style: PropTypes.string.isRequired,
-};
-
-export default IngredientDetails;

@@ -6,8 +6,13 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import NavigationButton from "../../UI/navigation-button/navigation-button";
+import { FC } from "react";
 
-const AppHeader = () => {
+interface AppHeaderProps {
+  className?: string;
+}
+
+const AppHeader: FC<AppHeaderProps> = () => {
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={`${styles.navBar} mt-4`}>

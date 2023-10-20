@@ -3,45 +3,50 @@ import IngredientCard from "../ingridient-card/ingridient-card";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingridients.module.css";
 import ingridientTypes from "../../utils/constants";
-import { useDispatch, useSelector } from "react-redux";
 import { GET_INGRIDIENT_DETAILS } from "../../services/actions/details";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { TIngredient } from "../../services/types/data";
+
+type PositionList = Record<string, number>;
 
 const Ingridients = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const allIngridients = useSelector((store) => store.ingridients);
+  const allIngridients = useAppSelector((store) => store.ingridients);
 
-  const [positionList, setPositionList] = useState({});
-  const [containerTop, setContainerTop] = useState(0);
-  const [activeTab, setActiveTab] = useState("bunHeader");
+  const [positionList, setPositionList] = useState<PositionList>({});
+  const [containerTop, setContainerTop] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<string>("bunHeader");
 
-  const onOpen = (ingridient) => {
+  const onOpen = (ingridient: TIngredient) => {
     dispatch({ type: GET_INGRIDIENT_DETAILS, payload: ingridient });
   };
 
-  const checkArray = (ingridient, type) => {
+  const checkArray = (ingridient: TIngredient, type: string): boolean => {
     return ingridient.type === type;
   };
 
-  const filterArray = (type) => {
-    return allIngridients.allItems.filter((ingridient) =>
+  const filterArray = (type: string): TIngredient[] => {
+    return allIngridients.allItems.filter((ingridient: TIngredient) =>
       checkArray(ingridient, type)
     );
   };
 
   //Рефы заголовков
-  const bunHeader = useRef(null);
-  const sauceHeader = useRef(null);
-  const fillinsHeader = useRef(null);
+  const bunHeader = useRef<HTMLHeadingElement>(null);
+  const sauceHeader = useRef<HTMLHeadingElement>(null);
+  const fillinsHeader = useRef<HTMLHeadingElement>(null);
   const headerRefs = [bunHeader, sauceHeader, fillinsHeader];
 
   // Посчитать y-координаты каждого заголовка
   const handleScroll = () => {
-    const updatedPositions = {};
+    const updatedPositions: Record<string, number> = {};
 
     headerRefs.forEach((ref, index) => {
-      const elementPosition = Math.floor(ref.current.getBoundingClientRect().y);
-      updatedPositions[headerRefs[index].current.id] = elementPosition;
+      const elementPosition = ref.current
+        ? Math.floor(ref.current.getBoundingClientRect().y)
+        : 0;
+      updatedPositions[headerRefs[index].current?.id ?? ""] = elementPosition;
     });
 
     setPositionList((prevState) => ({ ...prevState, ...updatedPositions }));
@@ -66,20 +71,30 @@ const Ingridients = () => {
 
   useEffect(() => {
     const container = document.querySelector(".custom-scroll");
-    const containerRect = container.getBoundingClientRect();
-    setContainerTop(containerRect.top);
+    if (container) {
+      const containerRect = container.getBoundingClientRect();
+      setContainerTop(containerRect.top);
+    }
   }, []);
 
   return (
     <div>
       <div className={`${styles.tabs} mt-5`}>
-        <Tab value="one" active={activeTab === "bunHeader"}>
+        <Tab value="one" active={activeTab === "bunHeader"} onClick={() => {}}>
           Булки
         </Tab>
-        <Tab value="two" active={activeTab === "sauceHeader"}>
+        <Tab
+          value="two"
+          active={activeTab === "sauceHeader"}
+          onClick={() => {}}
+        >
           Соусы
         </Tab>
-        <Tab value="three" active={activeTab === "fillinsHeader"}>
+        <Tab
+          value="three"
+          active={activeTab === "fillinsHeader"}
+          onClick={() => {}}
+        >
           Начинки
         </Tab>
       </div>

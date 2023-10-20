@@ -1,6 +1,10 @@
-export const socketMiddleware = (wsActions) => {
+import { Middleware } from "redux";
+
+export const socketMiddleware = (wsActions: {
+  [key: string]: string;
+}): Middleware => {
   return (store) => {
-    let socket = null;
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
@@ -35,7 +39,6 @@ export const socketMiddleware = (wsActions) => {
         socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
-
           dispatch({ type: onMessage, payload: parsedData });
         };
 

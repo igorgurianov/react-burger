@@ -18,5 +18,3 @@ export const rootReducer = combineReducers({
   orderHistory: orderHistoryReducer,
   orderDetails: orderDetailsReducer,
 });
-
-export type AppState = ReturnType<typeof rootReducer>;

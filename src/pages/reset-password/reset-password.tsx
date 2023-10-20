@@ -8,12 +8,14 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { api } from "../../utils/api";
 import { useForm } from "../../hooks/useForm";
 import styles from "./reset-password.module.css";
+import { useAppDispatch } from "../../hooks";
+import { FormEvent } from "react";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
   const { values, handleChange } = useForm();
 
-  const submitFormHandler = (e) => {
+  const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     api.resetPassword(values).then((res) => {
       if (res && res.success) {
@@ -40,7 +42,7 @@ export const ResetPassword = () => {
           <PasswordInput
             placeholder={"Введите новый пароль"}
             onChange={handleChange}
-            value={values.password}
+            value={values.password || ""}
             name={"password"}
             extraClass="mt-6"
             required
@@ -49,7 +51,7 @@ export const ResetPassword = () => {
             type={"text"}
             placeholder={"Введите код из письма"}
             onChange={handleChange}
-            value={values.token}
+            value={values.token || ""}
             name={"token"}
             error={false}
             errorText={"Ошибка"}
@@ -70,7 +72,7 @@ export const ResetPassword = () => {
           <p className="text text_type_main-default text_color_inactive mr-2">
             Вспомнили пароль?
           </p>
-          <SuggestLink buttonText="Войти" />
+          <SuggestLink buttonText="Войти" to={"/"} />
         </div>
       </div>
     );

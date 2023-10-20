@@ -1,9 +1,10 @@
 import { useState, ChangeEvent } from "react";
 
 export interface FormValues {
-  email: string;
-  name: string;
-  password: string;
+  email?: string;
+  name?: string;
+  password?: string;
+  token?: string;
 }
 
 export function useForm(

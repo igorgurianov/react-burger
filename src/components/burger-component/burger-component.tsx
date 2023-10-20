@@ -9,27 +9,25 @@ import { REMOVE_FILLING } from "../../services/actions/constructor";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { TIngredient } from "../../services/types/data";
-// const burgerComponentPropTypes = {
-//   text: PropTypes.string.isRequired,
-//   thumbnail: PropTypes.string.isRequired,
-//   price: PropTypes.number.isRequired,
-// };
+import type { Identifier, XYCoord } from "dnd-core";
 
-// interface IBurgerComponent {
-//   isLocked: boolean;
-//   data: any;
-//   uniqueId: string;
-//   index: string;
-//   _id: string;
-//   moveCard: () => void;
-// }
+interface IBurgerComponent {
+  isLocked?: boolean;
+  data: any;
+  uniqueId?: string;
+  index: string;
+  _id?: string;
+  moveCard: (dragIndex: number, hoverIndex: any) => void;
+}
 
-// interface IUseDrop {
-//   type: any;
-//   index: any;
-// }
+interface DragItem {
+  index: any;
+  id: number;
+  type: number;
+  item: any;
+}
 
-const BurgerComponent = ({
+const BurgerComponent: FC<IBurgerComponent> = ({
   isLocked,
   data,
   uniqueId,
@@ -39,15 +37,14 @@ const BurgerComponent = ({
 }) => {
   const dispatch = useDispatch();
 
-  const ref = useRef(null);
-
+  const ref = useRef<HTMLLIElement | null>(null);
   const handleRemoveButton = () => {
     dispatch({ type: REMOVE_FILLING, payload: uniqueId });
   };
 
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: "filling",
-    hover: (item, monitor) => {
+    hover: (item: DragItem, monitor) => {
       if (!ref.current) {
         return;
       }
@@ -65,7 +62,7 @@ const BurgerComponent = ({
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
+      const clientOffset: any = monitor.getClientOffset();
       // Get pixels to the top
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       // Only perform the move when the mouse has crossed half of the items height
@@ -79,7 +76,8 @@ const BurgerComponent = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-
+      console.log(typeof dragIndex);
+      console.log(typeof hoverIndex);
       moveCard(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },

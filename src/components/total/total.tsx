@@ -1,12 +1,14 @@
 import { useSelector } from "react-redux";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./total.module.css";
+import { useAppSelector } from "../../hooks";
+import { FC } from "react";
 
-const Total = () => {
-  const selectedFillings = useSelector(
+const Total: FC = () => {
+  const selectedFillings = useAppSelector(
     (store) => store.burgerConstructor.selectedFillings
   );
-  const selectedBun = useSelector(
+  const selectedBun = useAppSelector(
     (store) => store.burgerConstructor.selectedBun
   );
 

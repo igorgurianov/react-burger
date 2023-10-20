@@ -5,16 +5,20 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { SuggestLink } from "../../UI/suggest-link/suggest-link";
 import { userLogin } from "../../services/actions/user";
-import { useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import styles from "./login.module.css";
+import { FC, FormEvent } from "react";
+import { useAppDispatch } from "../../hooks";
 
-export const Login = () => {
-  const { values, handleChange } = useForm();
+export const Login: FC = () => {
+  const { values, handleChange } = useForm({
+    email: "",
+    password: "",
+  });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(userLogin(values));
   };
@@ -25,17 +29,17 @@ export const Login = () => {
         <EmailInput
           placeholder={"E-mail"}
           onChange={handleChange}
-          value={values.email}
+          value={values.email || ""}
           name={"email"}
-          errorText={"Укажите корректный email"}
+          //errorText={"Укажите корректный email"}
           extraClass="mt-6"
           required
         />
         <PasswordInput
           onChange={handleChange}
-          value={values.password}
+          value={values.password || ""}
           name={"password"}
-          errorText={"Не меньше 6 символов"}
+          //errorText={"Не меньше 6 символов"}
           extraClass="mt-6"
           required
           icon="ShowIcon"

@@ -4,10 +4,11 @@ import {
   GET_ITEMS_REQUEST,
 } from "../actions";
 
+import { TIngredient } from "../types/data";
 import { TIngridientsActions } from "../actions";
 
 export type TIngridientsState = {
-  allItems: any;
+  allItems?: TIngredient[];
   itemsRequest: boolean;
   itemsFailed: boolean;
 };

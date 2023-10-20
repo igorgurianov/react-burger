@@ -5,16 +5,21 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { SuggestLink } from "../../UI/suggest-link/suggest-link";
-import { useDispatch } from "react-redux";
 import { registration } from "../../services/actions/user";
 import { useForm } from "../../hooks/useForm";
 import styles from "./register.module.css";
+import { useAppDispatch } from "../../hooks";
+import { FormEvent } from "react";
 
 export const Register = () => {
-  const dispatch = useDispatch();
-  const { values, handleChange } = useForm();
+  const dispatch = useAppDispatch();
+  const { values, handleChange } = useForm({
+    email: "",
+    name: "",
+    password: "",
+  });
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(registration(values));
   };
@@ -29,7 +34,7 @@ export const Register = () => {
           type={"text"}
           placeholder={"Имя"}
           onChange={handleChange}
-          value={values.name}
+          value={values.name || ""}
           name={"name"}
           error={false}
           errorText={"Ошибка"}
@@ -40,19 +45,19 @@ export const Register = () => {
         <EmailInput
           placeholder={"E-mail"}
           onChange={handleChange}
-          value={values.email}
+          value={values.email || ""}
           name={"email"}
-          errorText={"Укажите корректный email"}
+          //errorText={"Укажите корректный email"}
           extraClass="mt-6"
           required
         />
         <PasswordInput
           placeholder={"Пароль"}
           onChange={handleChange}
-          value={values.password}
+          value={values.password || ""}
           name={"password"}
           extraClass="mt-6"
-          errorText={"Не меньше 6 символов"}
+          //errorText={"Не меньше 6 символов"}
           required
         />
         <Button

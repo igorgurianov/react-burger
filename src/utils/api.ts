@@ -1,4 +1,4 @@
-import { IRegisterUser } from "../services/types/data";
+import { IRegisterUser, IForgotPassword, ILogin } from "../services/types/data";
 const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 export const ORDER_FEED_URL = "wss://norma.nomoreparties.space/orders/all";
 export const ORDER_HISTORY_URL = "wss://norma.nomoreparties.space/orders";
@@ -70,7 +70,7 @@ const placeOrder = (requestData: any) => {
 };
 
 // Registration
-const registration = (name: string, email: string, password: string) =>
+const registration = ({ name, email, password }: IRegisterUser) =>
   request("/auth/register", {
     method: "POST",
     headers: {
@@ -84,7 +84,7 @@ const registration = (name: string, email: string, password: string) =>
   });
 
 // Login
-const login = (email: string, password: string) =>
+const login = ({ email, password }: ILogin) =>
   request("/auth/login", {
     method: "POST",
     headers: {
@@ -124,7 +124,7 @@ const changeUserInfo = ({ email, password, name }: IRegisterUser) => {
 };
 
 // Forgot password
-const forgotPassword = ({ email }: IRegisterUser) =>
+const forgotPassword = ({ email }: IForgotPassword) =>
   request("/password-reset", {
     method: "POST",
     headers: {

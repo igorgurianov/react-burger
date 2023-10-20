@@ -5,20 +5,21 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { changeInfo } from "../../services/actions/user";
 import { useForm } from "../../hooks/useForm";
+import { FC } from "react";
 
-const EditProfile = () => {
-  const dispatch = useDispatch();
-  const profile = useSelector((store) => store.user.user);
+const EditProfile: FC = () => {
+  const dispatch = useAppDispatch();
+  const profile = useAppSelector((store) => store.user.user);
   const { values, handleChange } = useForm({
     name: profile.name,
     email: profile.email,
-    pass: "",
+    password: "",
   });
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(changeInfo(values));
   };
@@ -30,7 +31,7 @@ const EditProfile = () => {
           <Input
             onChange={handleChange}
             type="text"
-            value={values.name}
+            value={values.name || ""}
             name={"name"}
             placeholder="Имя"
             extraClass="mb-2"
@@ -39,16 +40,16 @@ const EditProfile = () => {
           />
           <EmailInput
             onChange={handleChange}
-            value={values.email}
+            value={values.email || ""}
             name={"email"}
             placeholder="Логин"
             extraClass="mb-2"
-            icon={"EditIcon"}
+            //icon={"EditIcon"}
             required
           />
           <PasswordInput
             onChange={handleChange}
-            value={values.pass}
+            value={values.password || ""}
             icon="ShowIcon"
             name={"password"}
           />

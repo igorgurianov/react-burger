@@ -4,6 +4,7 @@ import {
   WS_ORDER_FEED_MESSAGE,
   WS_ORDER_FEED_OPEN,
   WS_ORDER_FEED_CONNECTING,
+  WS_ORDER_FEED_DISCONNECT,
 } from "../actions/order-feed";
 
 import { TOrderFeedActions } from "../actions/order-feed";
@@ -47,6 +48,13 @@ export const orderFeedReducer = (
       };
 
     case WS_ORDER_FEED_CLOSE:
+      return {
+        ...state,
+        error: undefined,
+        wsConnected: false,
+        orders: [],
+      };
+    case WS_ORDER_FEED_DISCONNECT:
       return {
         ...state,
         error: undefined,

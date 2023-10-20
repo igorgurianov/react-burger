@@ -1,8 +1,8 @@
 import style from "./status-tableau.module.css";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks";
 
 const StatusTableau = () => {
-  const { orders, total, totalToday } = useSelector(
+  const { orders, total, totalToday } = useAppSelector(
     (store) => store.orderFeed.orders
   );
 
@@ -13,7 +13,7 @@ const StatusTableau = () => {
           <h4 className="text text_type_main-medium">Готовы:</h4>
           {orders && (
             <ul className={style.board__list}>
-              {orders.slice(0, 6).map((order) => {
+              {orders.slice(0, 6).map((order: any) => {
                 if (order.status === "done") {
                   return (
                     <li
@@ -32,7 +32,7 @@ const StatusTableau = () => {
           <h4 className="text text_type_main-medium">В работе:</h4>
           {orders && (
             <ul className={style.board__list}>
-              {orders.map((order) => {
+              {orders.map((order: any) => {
                 if (order.status === "pending") {
                   return (
                     <li

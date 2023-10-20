@@ -1,11 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks";
 import { ProfileButton } from "../../UI/profile-button/profile-button";
 import { Outlet } from "react-router-dom";
 import { logout } from "../../services/actions/user";
 import styles from "./profile.module.css";
+import { FC } from "react";
 
-export const Profile = () => {
-  const dispatch = useDispatch();
+export const Profile: FC = () => {
+  const dispatch = useAppDispatch();
 
   const handleLogoutClick = () => {
     dispatch(logout());
@@ -17,10 +18,12 @@ export const Profile = () => {
         <nav>
           <ul className={styles.list}>
             <li>
-              <ProfileButton to={"/profile"}>Профиль</ProfileButton>
+              <ProfileButton onClick={() => {}} to={"/profile"}>
+                Профиль
+              </ProfileButton>
             </li>
             <li>
-              <ProfileButton to={"/profile/orders"}>
+              <ProfileButton onClick={() => {}} to={"/profile/orders"}>
                 История заказов
               </ProfileButton>
             </li>

@@ -6,10 +6,11 @@ import {
 } from "../actions/constructor";
 import ingridientTypes from "../../utils/constants";
 import { TConstructorActions } from "../actions/constructor";
+import { TIngredient } from "../types/data";
 
 export type TConstructorState = {
   selectedBun?: any;
-  selectedFillings?: any;
+  selectedFillings: TIngredient[];
   totalPrice: number;
   orderedIngridients?: any;
 };
@@ -22,7 +23,7 @@ const initialState = {
 };
 
 export const constructorReducer = (
-  state = initialState,
+  state: TConstructorState = initialState,
   action: TConstructorActions
 ) => {
   switch (action.type) {

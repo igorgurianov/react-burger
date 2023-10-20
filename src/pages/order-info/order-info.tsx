@@ -9,12 +9,13 @@ import { getOrderInfo } from "../../services/actions/order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { useInfo } from "../../hooks/useInfo";
 import TimeStamp from "../../components/time-stamp/TimeStamp";
-import { useAppSelector, useAppDispatch } from "../../hooks";
 import { any } from "prop-types";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { TIngredient } from "../../services/types/data";
 
 const OrderInfo = ({ style }: any) => {
   const { id } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { order, success, isLoading } = useAppSelector(
     (store) => store.orderDetails
   );
@@ -26,7 +27,7 @@ const OrderInfo = ({ style }: any) => {
   } = useInfo();
 
   useEffect(() => {
-    //dispatch(getOrderInfo(id));
+    dispatch(getOrderInfo(id));
   }, [id, dispatch]);
 
   if (isLoading) {
@@ -49,29 +50,7 @@ const OrderInfo = ({ style }: any) => {
     );
   }
 
-  if (!success) {
-    return (
-      <div
-        className={styles.container}
-        style={
-          style === "page"
-            ? { backgroundColor: "transparent", marginTop: "80px" }
-            : { backgroundColor: "#1C1C21" }
-        }
-      >
-        <div className={styles.content}>
-          <h4 className={`${styles.centered} text text_type_digits-default`}>
-            #{id}
-          </h4>
-          <p className={`mt-10 text text_type_main-medium`}>
-            Не удалось загрузить данные
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (order && success) {
+  if (success && order) {
     return (
       <div
         className={styles.container}
@@ -108,7 +87,7 @@ const OrderInfo = ({ style }: any) => {
           <ul className={`${styles.list} mt-6 custom-scroll`}>
             {order.ingredients &&
               countIngredients(order.ingredients).map(
-                (ingredient: any, index: any) => {
+                (ingredient: TIngredient, index: number) => {
                   return (
                     <div className={styles.ingredient} key={index}>
                       <img
@@ -147,6 +126,26 @@ const OrderInfo = ({ style }: any) => {
               <CurrencyIcon type="primary" />
             </div>
           </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className={styles.container}
+        style={
+          style === "page"
+            ? { backgroundColor: "transparent", marginTop: "80px" }
+            : { backgroundColor: "#1C1C21" }
+        }
+      >
+        <div className={styles.content}>
+          <h4 className={`${styles.centered} text text_type_digits-default`}>
+            #{id}
+          </h4>
+          <p className={`mt-10 text text_type_main-medium`}>
+            Не удалось загрузить данные
+          </p>
         </div>
       </div>
     );

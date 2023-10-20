@@ -10,7 +10,7 @@ export interface IGetItemsRequest {
 
 export interface IGetItemsSuccess {
   readonly type: typeof GET_ITEMS_SUCCESS;
-  readonly payload: ReadonlyArray<TIngredient>;
+  readonly payload: any;
 }
 
 export interface IGetItemsFailed {

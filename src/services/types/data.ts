@@ -11,6 +11,8 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number;
+  uniqueId?: string;
+  count?: number;
 };
 
 export type TOnOpenFunction = (data: TIngredient) => void;
@@ -28,9 +30,17 @@ export type TOrder = {
 };
 
 export interface IRegisterUser {
-  name: string;
-  email: string;
-  pass: string;
+  name?: string;
+  email?: string;
   password?: string;
   token?: string;
+}
+
+export interface IForgotPassword {
+  email?: string;
+}
+
+export interface ILogin {
+  email?: string;
+  password?: string;
 }

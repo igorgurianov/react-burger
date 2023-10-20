@@ -7,22 +7,22 @@ import { api } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import styles from "./forgot-password.module.css";
+import { FormEvent } from "react";
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
-  const { values, handleChange } = useForm();
+  const { values, handleChange } = useForm({
+    email: "",
+  });
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    api
-      .forgotPassword(values)
-      .then((res) => {
-        if (res && res.success) {
-          localStorage.setItem("forgot-password", true);
-          navigate("/reset-password");
-        }
-      })
-      .then();
+    api.forgotPassword(values).then((res) => {
+      if (res && res.success) {
+        localStorage.setItem("forgot-password", "true");
+        navigate("/reset-password");
+      }
+    });
   };
 
   return (
@@ -34,9 +34,9 @@ export const ForgotPassword = () => {
         <EmailInput
           placeholder={"Укажите e-mail"}
           onChange={handleChange}
-          value={values.email}
+          value={values.email || ""}
           name={"email"}
-          errorText={"Укажите корректный email"}
+          //errorText={"Укажите корректный email"}
           extraClass="mt-6"
           required
         />

@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 import AppHeader from "../header/header";
 import { getItems } from "../../services/actions";
-import { useDispatch } from "react-redux";
 import { Home } from "../../pages/home";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import { Login } from "../../pages/login/login";
 import { Register } from "../../pages/register/register";
@@ -14,19 +13,19 @@ import { Profile } from "../../pages/profile/profile";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import EditProfile from "../edit-profile/edit-profile";
 import { checkUserAuth } from "../../services/actions/user";
-import { useSelector } from "react-redux";
 import Feed from "../../pages/feed/feed";
 import OrderInfo from "../../pages/order-info/order-info";
 import PersonalHistory from "../personal-history/personal-history";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
-  const orderFeed = useSelector((store) => store.orderFeed.orders);
-  const orderHistory = useSelector((store) => store.orderHistory.orders);
+  const orderFeed = useAppSelector((store) => store.orderFeed.orders);
+  const orderHistory = useAppSelector((store) => store.orderHistory.orders);
 
   const handleModalClose = () => {
     navigate(-1);
@@ -86,7 +85,7 @@ function App() {
             path="/ingredients/:ingredientId"
             element={
               <Modal onClose={handleModalClose}>
-                <IngredientDetails onClose={handleModalClose} style="popup" />
+                <IngredientDetails style="popup" />
               </Modal>
             }
           />

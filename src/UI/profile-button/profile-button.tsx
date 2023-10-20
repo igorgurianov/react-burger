@@ -1,8 +1,15 @@
 import { NavLink } from "react-router-dom";
 import styles from "./profile-button.module.css";
 import { useLocation } from "react-router-dom";
+import { FC, ReactNode } from "react";
 
-export const ProfileButton = ({ children, to, onClick }) => {
+type Props = {
+  children: ReactNode;
+  to?: string;
+  onClick: () => void;
+};
+
+export const ProfileButton: FC<Props> = ({ children, to, onClick }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
 

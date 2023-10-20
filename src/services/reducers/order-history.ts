@@ -10,7 +10,7 @@ import { TOrderHistoryActions } from "../actions/order-history";
 export type TOrderHistoryState = {
   wsConnected: boolean;
   isConnecting: boolean;
-  orders: any[];
+  orders: any;
   error: any;
 };
 
@@ -59,6 +59,7 @@ export const orderHistoryReducer = (
         error: undefined,
         orders: action.payload,
       };
+
     default:
       return state;
   }
