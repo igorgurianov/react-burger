@@ -7,7 +7,6 @@ import BurgerComponent from "../burger-component/burger-component";
 import Total from "../total/total";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-//import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../../services/actions/order";
 import { CLOSE_ORDER_INFO } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
@@ -20,8 +19,6 @@ import { addIngridient } from "../../services/actions/constructor";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { TIngredient } from "../../services/types/data";
 import { FC } from "react";
-import { any } from "prop-types";
-import type { Identifier, XYCoord } from "dnd-core";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
@@ -51,7 +48,6 @@ const BurgerConstructor: FC = () => {
   // Хендлер переноса начального ингридиента в конструктор
   const onDropHandler = (ingridient: TIngredient) => {
     dispatch(addIngridient(ingridient));
-    console.log(ingridient);
   };
 
   const borderColor = isHover ? { border: "2px solid greenyellow" } : {};
@@ -102,7 +98,7 @@ const BurgerConstructor: FC = () => {
 
         {selectedFillings && (
           <ul className={`${styles.list} custom-scroll pr-2`}>
-            {selectedFillings.map((ingridient, index: any) => {
+            {selectedFillings.map((ingridient, index) => {
               return (
                 <BurgerComponent
                   key={ingridient.uniqueId}

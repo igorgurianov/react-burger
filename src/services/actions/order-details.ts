@@ -1,4 +1,5 @@
 import { api } from "../../utils/api";
+import { AppDispatch } from "../types";
 export const ORDER_DETAILS_REQUEST: "ORDER_DETAILS_REQUEST" =
   "ORDER_DETAILS_REQUEST";
 export const ORDER_DETAILS_SUCCESS: "ORDER_DETAILS_SUCCESS" =
@@ -47,11 +48,13 @@ export const orderDetailsRemoveAction = (): IOrderDetailsRemove => ({
 });
 
 export function getOrderInfo(order: any) {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch(orderDetailsRequestAction());
     api
       .getOrderInfo(order)
+
       .then((res) => dispatch(orderDetailsSuccessAction(res.orders[0])))
+
       .catch(() => {
         dispatch(orderDetailsFailedAction());
       });

@@ -1,4 +1,5 @@
 import { api } from "../../utils/api";
+import { AppDispatch } from "../types";
 import { ILogin, IRegisterUser } from "../types/data";
 
 export const REGISTER_USER_REQUEST: "REGISTER_USER_REQUEST" =
@@ -63,7 +64,7 @@ export type TUserActions =
   | ISetUserFailed;
 
 export function registration(values: IRegisterUser) {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: REGISTER_USER_REQUEST });
 
     api
@@ -84,7 +85,7 @@ export function registration(values: IRegisterUser) {
 }
 
 export function userLogin(values: ILogin) {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch({ type: LOGIN_USER_REQUEST });
     api
       .login(values)
@@ -101,7 +102,7 @@ export function userLogin(values: ILogin) {
 }
 
 export function changeInfo(data: any) {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     api
       .changeUserInfo(data)
       .then((res) => {
@@ -112,7 +113,7 @@ export function changeInfo(data: any) {
 }
 
 export function checkUserAuth() {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     api
       .getUser()
       .then((res) => {
@@ -123,7 +124,7 @@ export function checkUserAuth() {
 }
 
 export function logout() {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     api
       .logout()
       .then((res) => {

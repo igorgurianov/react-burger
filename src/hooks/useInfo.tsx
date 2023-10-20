@@ -1,39 +1,45 @@
 import { useSelector } from "react-redux";
+import { useAppSelector } from ".";
+import { TIngredient } from "../services/types/data";
+
+type TIngredientCount = TIngredient & {
+  count?: number;
+};
 
 export function useInfo() {
-  const { allItems } = useSelector((store) => store.ingridients);
+  const { allItems } = useAppSelector((store) => store.ingridients);
 
-  const itemExists = (id) =>
-    allItems.find((item) => {
+  const itemExists = (id: string) =>
+    allItems.find((item: TIngredient) => {
       if (item._id === id) {
         return item;
       }
     });
 
-  const findImgUrl = (id) => {
+  const findImgUrl = (id: string) => {
     const item = itemExists(id);
     if (item) {
       return item.image;
     }
   };
 
-  const findIngredientName = (id) => {
+  const findIngredientName = (id: string) => {
     const item = itemExists(id);
     if (item) {
       return item.name;
     }
   };
 
-  const findIngredientPrice = (id) => {
+  const findIngredientPrice = (id: string) => {
     const item = itemExists(id);
     if (item) {
       return item.price;
     }
   };
 
-  const orderPrice = (ingredients) => {
+  const orderPrice = (ingredients: string[]) => {
     return ingredients.reduce((total, item) => {
-      const matchedItem = allItems.find((i) => i._id === item);
+      const matchedItem = allItems.find((i: TIngredient) => i._id === item);
       if (matchedItem) {
         total += matchedItem.price;
       }
@@ -41,9 +47,11 @@ export function useInfo() {
     }, 0);
   };
 
-  const countIngredients = (ingredients) => {
-    return ingredients.reduce((result, ingredient) => {
-      const existingIngredient = result.find((item) => item._id === ingredient);
+  const countIngredients = (ingredients: string[]) => {
+    return ingredients.reduce((result: any, ingredient: any) => {
+      const existingIngredient = result.find(
+        (item: any) => item._id === ingredient
+      );
       if (existingIngredient) {
         existingIngredient.count++;
       } else {

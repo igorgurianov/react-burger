@@ -11,14 +11,14 @@ export interface IIngredientDetails {
 }
 
 export const IngredientDetails: FC<IIngredientDetails> = ({ style }) => {
-  const allIngridients = useAppSelector((store) => store.ingridients.allItems);
+  const allIngridients = useAppSelector((store) => store.ingridients);
   const id = useParams();
 
-  const [ingridient, setIngridient] = useState<TIngredient | null>(null);
+  const [ingridient, setIngridient] = useState<TIngredient>();
 
   useEffect(() => {
     setIngridient(
-      allIngridients.find(
+      allIngridients.allItems.find(
         (ingridient: TIngredient) => ingridient._id === id.ingredientId
       )
     );

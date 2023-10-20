@@ -5,12 +5,13 @@ import {
   ORDER_DETAILS_FAILED,
 } from "../actions/order-details";
 
+import { TOrder } from "../types/data";
 import { TOrderDetailsActions } from "../actions/order-details";
 
 export type TOrderDetails = {
   isLoading: boolean;
   success: boolean;
-  order: any;
+  order: ReadonlyArray<TOrder>;
 };
 
 const initialState = {

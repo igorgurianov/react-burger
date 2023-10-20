@@ -3,7 +3,7 @@ const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 export const ORDER_FEED_URL = "wss://norma.nomoreparties.space/orders/all";
 export const ORDER_HISTORY_URL = "wss://norma.nomoreparties.space/orders";
 
-const checkResponse = (res: any) => {
+const checkResponse = (res: Response) => {
   return res.ok
     ? res.json()
     : res.json().then((err: any) => Promise.reject(err));
@@ -16,7 +16,7 @@ const checkSuccess = (res: any) => {
   return Promise.reject(`Ответ не success: ${res}`);
 };
 
-const request = (endpoint: string, options?: any) => {
+const request = (endpoint: string, options?: RequestInit) => {
   return fetch(`${BURGER_API_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
@@ -56,7 +56,7 @@ const getIngredients = () => request("/ingredients");
 // Запросить информаци о конкретном заказе
 const getOrderInfo = (order: any) => request(`/orders/${order}`);
 // Разместить заказ
-const placeOrder = (requestData: any) => {
+const placeOrder = (requestData: string[]) => {
   return requestWithRefresh("/orders", {
     method: "POST",
     headers: {

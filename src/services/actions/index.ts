@@ -1,5 +1,6 @@
 import { api } from "../../utils/api";
 import { TIngredient } from "../types/data";
+import { AppDispatch } from "../types";
 export const GET_ITEMS_REQUEST: "GET_ITEMS_REQUEST" = "GET_ITEMS_REQUEST";
 export const GET_ITEMS_SUCCESS: "GET_ITEMS_SUCCESS" = "GET_ITEMS_SUCCESS";
 export const GET_ITEMS_FAILED: "GET_ITEMS_FAILED" = "GET_ITEMS_FAILED";
@@ -10,7 +11,7 @@ export interface IGetItemsRequest {
 
 export interface IGetItemsSuccess {
   readonly type: typeof GET_ITEMS_SUCCESS;
-  readonly payload: any;
+  readonly payload: ReadonlyArray<TIngredient>;
 }
 
 export interface IGetItemsFailed {
@@ -39,7 +40,7 @@ export const getItemsSuccessAction = (
 });
 
 export function getItems() {
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch(getItemsAction());
     api
       .getIngredients()

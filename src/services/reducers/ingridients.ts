@@ -8,7 +8,7 @@ import { TIngredient } from "../types/data";
 import { TIngridientsActions } from "../actions";
 
 export type TIngridientsState = {
-  allItems?: TIngredient[];
+  allItems: ReadonlyArray<TIngredient>;
   itemsRequest: boolean;
   itemsFailed: boolean;
 };

@@ -1,10 +1,6 @@
-type TingridientTypes = {
-  bun: string;
-  main: string;
-  sauce: string;
-};
+import { TIngridientTypes } from "../services/types/data";
 
-const ingridientTypes: TingridientTypes = {
+const ingridientTypes: TIngridientTypes = {
   bun: "bun",
   main: "main",
   sauce: "sauce",

@@ -8,15 +8,21 @@ import {
 } from "../actions/order-feed";
 
 import { TOrderFeedActions } from "../actions/order-feed";
+import { TOrder } from "../types/data";
 
 export type TOrderFeedState = {
   wsConnected: boolean;
   isConnecting: boolean;
-  orders: any;
+  orders: ReadonlyArray<{
+    orders: ReadonlyArray<TOrder>;
+    success: boolean;
+    total: number;
+    totalToday: number;
+  }>;
   error: any;
 };
 
-const initialState = {
+const initialState: TOrderFeedState = {
   wsConnected: false,
   isConnecting: false,
   orders: [],
@@ -24,7 +30,7 @@ const initialState = {
 };
 
 export const orderFeedReducer = (
-  state: TOrderFeedState = initialState,
+  state = initialState,
   action: TOrderFeedActions
 ) => {
   switch (action.type) {

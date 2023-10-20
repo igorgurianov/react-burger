@@ -9,7 +9,7 @@ import { TConstructorActions } from "../actions/constructor";
 import { TIngredient } from "../types/data";
 
 export type TConstructorState = {
-  selectedBun?: any;
+  selectedBun: TIngredient | null;
   selectedFillings: TIngredient[];
   totalPrice: number;
   orderedIngridients?: any;
@@ -45,7 +45,7 @@ export const constructorReducer = (
         ...state,
         selectedFillings: [
           ...state.selectedFillings.filter(
-            (item: any) => item.uniqueId !== action.payload
+            (item: TIngredient) => item.uniqueId !== action.payload
           ),
         ],
       };

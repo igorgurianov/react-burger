@@ -4,12 +4,13 @@ import {
   GET_ORDER_REQUEST,
   CLOSE_ORDER_INFO,
 } from "../actions/order";
+import { TOrder } from "../types/data";
 
 import { TOrderActions } from "../actions/order";
 
 export type TOrderState = {
   isOpen: boolean;
-  order?: any;
+  order: number | null;
   orderRequest: boolean;
   orderFailed: boolean;
 };

@@ -17,7 +17,7 @@ export interface IAddBun {
 
 export interface IRemoveFilling {
   readonly type: typeof REMOVE_FILLING;
-  readonly payload: any;
+  readonly payload: string;
 }
 
 export interface IOrderIngredients {

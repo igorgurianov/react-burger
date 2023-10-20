@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
 import styles from "./order-info.module.css";
-import {
-  CurrencyIcon,
-  FormattedDate,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect } from "react";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, useEffect } from "react";
 import { getOrderInfo } from "../../services/actions/order-details";
-import { useDispatch, useSelector } from "react-redux";
 import { useInfo } from "../../hooks/useInfo";
 import TimeStamp from "../../components/time-stamp/TimeStamp";
-import { any } from "prop-types";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { TIngredient } from "../../services/types/data";
 
-const OrderInfo = ({ style }: any) => {
+type Props = {
+  style: string;
+  onClose?: () => void;
+};
+
+const OrderInfo: FC<Props> = ({ style }) => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { order, success, isLoading } = useAppSelector(
@@ -117,7 +117,7 @@ const OrderInfo = ({ style }: any) => {
             <div className={styles.total}>
               <span className="text text_type_digits-default mr-2">
                 {countIngredients(order.ingredients).reduce(
-                  (acc: any, item: any) => {
+                  (acc: number, item: any) => {
                     return acc + item.price * item.count;
                   },
                   0

@@ -19,15 +19,16 @@ const Ingridients = () => {
   const [activeTab, setActiveTab] = useState<string>("bunHeader");
 
   const onOpen = (ingridient: TIngredient) => {
+    console.log(ingridient);
     dispatch({ type: GET_INGRIDIENT_DETAILS, payload: ingridient });
   };
 
-  const checkArray = (ingridient: TIngredient, type: string): boolean => {
+  const checkArray = (ingridient: any, type: string): boolean => {
     return ingridient.type === type;
   };
 
-  const filterArray = (type: string): TIngredient[] => {
-    return allIngridients.allItems.filter((ingridient: TIngredient) =>
+  const filterArray = (type: string) => {
+    return allIngridients.allItems.filter((ingridient) =>
       checkArray(ingridient, type)
     );
   };

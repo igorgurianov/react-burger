@@ -4,24 +4,23 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-component.module.css";
-import PropTypes from "prop-types";
 import { REMOVE_FILLING } from "../../services/actions/constructor";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
+import type { Identifier } from "dnd-core";
 import { TIngredient } from "../../services/types/data";
-import type { Identifier, XYCoord } from "dnd-core";
 
 interface IBurgerComponent {
   isLocked?: boolean;
-  data: any;
+  data: TIngredient;
   uniqueId?: string;
-  index: string;
+  index: number;
   _id?: string;
-  moveCard: (dragIndex: number, hoverIndex: any) => void;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
 }
 
 interface DragItem {
-  index: any;
+  index: number;
   id: number;
   type: number;
   item: any;

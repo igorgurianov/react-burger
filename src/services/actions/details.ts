@@ -1,3 +1,5 @@
+import { TIngredient } from "../types/data";
+
 export const GET_INGRIDIENT_DETAILS: "GET_INGRIDIENT_DETAILS" =
   "GET_INGRIDIENT_DETAILS";
 export const REMOVE_INGRIDIENT_DETAILS: "REMOVE_INGRIDIENT_DETAILS" =
@@ -5,7 +7,7 @@ export const REMOVE_INGRIDIENT_DETAILS: "REMOVE_INGRIDIENT_DETAILS" =
 
 export interface IGetIngridientDetails {
   readonly type: typeof GET_INGRIDIENT_DETAILS;
-  readonly payload: any;
+  readonly payload: TIngredient;
 }
 
 export interface IRemoveIngridientDetails {
