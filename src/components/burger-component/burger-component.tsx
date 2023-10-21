@@ -4,16 +4,16 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-component.module.css";
-import { REMOVE_FILLING } from "../../services/actions/constructor";
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import type { Identifier } from "dnd-core";
 import { TIngredient } from "../../services/types/data";
+import { useAppDispatch } from "../../hooks";
+import { removeIngridient } from "../../services/actions/constructor";
 
 interface IBurgerComponent {
   isLocked?: boolean;
   data: TIngredient;
-  uniqueId?: string;
+  uniqueId: string;
   index: number;
   _id?: string;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
@@ -23,7 +23,6 @@ interface DragItem {
   index: number;
   id: number;
   type: number;
-  item: any;
 }
 
 const BurgerComponent: FC<IBurgerComponent> = ({
@@ -34,16 +33,17 @@ const BurgerComponent: FC<IBurgerComponent> = ({
   _id,
   moveCard,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLLIElement | null>(null);
+
   const handleRemoveButton = () => {
-    dispatch({ type: REMOVE_FILLING, payload: uniqueId });
+    dispatch(removeIngridient(uniqueId));
   };
 
   const [, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: "filling",
-    hover: (item: DragItem, monitor) => {
+    hover: (item, monitor) => {
       if (!ref.current) {
         return;
       }
@@ -75,8 +75,6 @@ const BurgerComponent: FC<IBurgerComponent> = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      console.log(typeof dragIndex);
-      console.log(typeof hoverIndex);
       moveCard(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
@@ -108,7 +106,5 @@ const BurgerComponent: FC<IBurgerComponent> = ({
     </li>
   );
 };
-
-//BurgerComponent.propTypes = burgerComponentPropTypes.isRequired;
 
 export default BurgerComponent;

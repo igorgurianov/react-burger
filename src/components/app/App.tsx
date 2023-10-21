@@ -24,8 +24,6 @@ function App() {
   const navigate = useNavigate();
 
   const background = location.state && location.state.background;
-  const orderFeed = useAppSelector((store) => store.orderFeed.orders);
-  const orderHistory = useAppSelector((store) => store.orderHistory.orders);
 
   const handleModalClose = () => {
     navigate(-1);

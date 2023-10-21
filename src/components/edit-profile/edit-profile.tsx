@@ -14,8 +14,8 @@ const EditProfile: FC = () => {
   const dispatch = useAppDispatch();
   const profile = useAppSelector((store) => store.user.user);
   const { values, handleChange } = useForm({
-    name: profile.name,
-    email: profile.email,
+    name: profile?.name || " ",
+    email: profile?.email || " ",
     password: "",
   });
 

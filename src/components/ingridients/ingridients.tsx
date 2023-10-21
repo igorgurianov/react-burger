@@ -23,7 +23,7 @@ const Ingridients = () => {
     dispatch({ type: GET_INGRIDIENT_DETAILS, payload: ingridient });
   };
 
-  const checkArray = (ingridient: any, type: string): boolean => {
+  const checkArray = (ingridient: TIngredient, type: string): boolean => {
     return ingridient.type === type;
   };
 

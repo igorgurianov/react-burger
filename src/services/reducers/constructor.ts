@@ -12,14 +12,14 @@ export type TConstructorState = {
   selectedBun: TIngredient | null;
   selectedFillings: TIngredient[];
   totalPrice: number;
-  orderedIngridients?: any;
+  //orderedIngridients: number[] | null;
 };
 
 const initialState = {
   selectedBun: null,
   selectedFillings: [],
   totalPrice: 0,
-  orderedIngridients: [],
+  //orderedIngridients: null,
 };
 
 export const constructorReducer = (

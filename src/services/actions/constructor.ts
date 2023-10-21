@@ -22,7 +22,7 @@ export interface IRemoveFilling {
 
 export interface IOrderIngredients {
   readonly type: typeof ORDER_INGRIDIENTS;
-  readonly payload: any;
+  readonly payload: { dragIndex: number; hoverIndex: number };
 }
 
 export interface IAddIngridient {
@@ -50,5 +50,12 @@ export const addIngridient = (item: TIngredient): IAddIngridient => {
       ...item,
       uniqueId: uuidv4(),
     },
+  };
+};
+
+export const removeIngridient = (item: string): IRemoveFilling => {
+  return {
+    type: REMOVE_FILLING,
+    payload: item,
   };
 };

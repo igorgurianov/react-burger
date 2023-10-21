@@ -1,6 +1,5 @@
 import { FC } from "react";
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";

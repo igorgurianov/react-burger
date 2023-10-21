@@ -3,7 +3,7 @@ import styles from "./order-info.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useEffect } from "react";
 import { getOrderInfo } from "../../services/actions/order-details";
-import { useInfo } from "../../hooks/useInfo";
+import { TCountedIngredient, useInfo } from "../../hooks/useInfo";
 import TimeStamp from "../../components/time-stamp/TimeStamp";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { TIngredient } from "../../services/types/data";
@@ -14,11 +14,11 @@ type Props = {
 };
 
 const OrderInfo: FC<Props> = ({ style }) => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { order, success, isLoading } = useAppSelector(
-    (store) => store.orderDetails
-  );
+  const { success, isLoading } = useAppSelector((store) => store.orderDetails);
+  const { order } = useAppSelector((store) => store.orderDetails);
+
   const {
     findImgUrl,
     findIngredientName,
@@ -27,7 +27,9 @@ const OrderInfo: FC<Props> = ({ style }) => {
   } = useInfo();
 
   useEffect(() => {
-    dispatch(getOrderInfo(id));
+    if (id) {
+      dispatch(getOrderInfo(id));
+    }
   }, [id, dispatch]);
 
   if (isLoading) {
@@ -87,7 +89,7 @@ const OrderInfo: FC<Props> = ({ style }) => {
           <ul className={`${styles.list} mt-6 custom-scroll`}>
             {order.ingredients &&
               countIngredients(order.ingredients).map(
-                (ingredient: TIngredient, index: number) => {
+                (ingredient: TCountedIngredient, index: number) => {
                   return (
                     <div className={styles.ingredient} key={index}>
                       <img
@@ -117,7 +119,7 @@ const OrderInfo: FC<Props> = ({ style }) => {
             <div className={styles.total}>
               <span className="text text_type_digits-default mr-2">
                 {countIngredients(order.ingredients).reduce(
-                  (acc: number, item: any) => {
+                  (acc: number, item: TCountedIngredient) => {
                     return acc + item.price * item.count;
                   },
                   0

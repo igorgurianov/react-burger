@@ -1,4 +1,3 @@
-import PropTypes, { string } from "prop-types";
 import styles from "./navigation-button.module.css";
 import { NavLink } from "react-router-dom";
 import { ReactElement, cloneElement } from "react";

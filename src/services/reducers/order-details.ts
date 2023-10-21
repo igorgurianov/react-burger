@@ -5,23 +5,23 @@ import {
   ORDER_DETAILS_FAILED,
 } from "../actions/order-details";
 
-import { TOrder } from "../types/data";
+import { IOrderData, TOrder, TOrderInfoResponse } from "../types/data";
 import { TOrderDetailsActions } from "../actions/order-details";
 
-export type TOrderDetails = {
+export type TOrderDetailsState = {
   isLoading: boolean;
   success: boolean;
-  order: ReadonlyArray<TOrder>;
+  order: TOrder | null;
 };
 
 const initialState = {
   isLoading: false,
   success: false,
-  order: [],
+  order: null,
 };
 
 export const orderDetailsReducer = (
-  state: TOrderDetails = initialState,
+  state: TOrderDetailsState = initialState,
   action: TOrderDetailsActions
 ) => {
   switch (action.type) {
@@ -36,7 +36,7 @@ export const orderDetailsReducer = (
         ...state,
         isLoading: false,
         success: true,
-        order: action.payload,
+        order: action.payload.orders[0],
       };
 
     case ORDER_DETAILS_REMOVE:

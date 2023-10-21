@@ -1,3 +1,4 @@
+import { TWebSocketResponse } from "../types/data";
 export const WS_ORDER_FEED_OPEN: "WS_ORDER_FEED_OPEN" = "WS_ORDER_FEED_OPEN";
 export const WS_ORDER_FEED_ERROR: "WS_ORDER_FEED_ERROR" = "WS_ORDER_FEED_ERROR";
 export const WS_ORDER_FEED_CLOSE: "WS_ORDER_FEED_CLOSE" = "WS_ORDER_FEED_CLOSE";
@@ -22,6 +23,7 @@ export interface IWsOrderFeedClose {
 }
 export interface IWsOrderFeedMessage {
   readonly type: typeof WS_ORDER_FEED_MESSAGE;
+  //readonly payload: TWebSocketResponse;
   readonly payload: any;
 }
 export interface IWsOrderFeedConnect {
@@ -51,4 +53,11 @@ export const wsFeedConnect = (url: string): IWsOrderFeedConnect => ({
 
 export const wsFeedDisconnect = (): IWsOrderFeedDisconnect => ({
   type: WS_ORDER_FEED_DISCONNECT,
+});
+
+export const wsFeedGetMessageAction = (
+  message: TWebSocketResponse
+): IWsOrderFeedMessage => ({
+  type: WS_ORDER_FEED_MESSAGE,
+  payload: message,
 });

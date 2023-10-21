@@ -31,7 +31,7 @@ export interface IWsHistoryError {
 }
 export interface IWsHistoryMessage {
   readonly type: typeof WS_HISTORY_MESSAGE;
-  readonly payload: string;
+  readonly payload: any;
 }
 
 export type TOrderHistoryActions =

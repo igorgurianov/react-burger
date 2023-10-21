@@ -18,6 +18,8 @@ const PersonalHistory: FC = () => {
   const accessToken = localStorage.getItem("accessToken");
   const token = accessToken ? accessToken.substring(7) : null;
 
+  console.log(orders);
+
   useEffect(() => {
     dispatch(wsHistoryConnect(`${ORDER_HISTORY_URL}?token=${token}`));
 

@@ -17,7 +17,7 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number | string;
-  uniqueId?: string;
+  uniqueId: string;
   count?: number;
 };
 
@@ -25,16 +25,17 @@ export type TOnOpenFunction = (data: TIngredient) => void;
 
 export type TModalRoot = HTMLElement;
 
-export type TOrder = {
-  readonly _id?: string;
-  readonly name: string;
-  readonly number: string;
-  readonly createdAt: string;
-  readonly updatedAt: string;
-  readonly ingredients: string[];
-  readonly status: "created" | "done" | "pending";
-  readonly path: string;
-};
+export interface IOrderData {
+  readonly order: {
+    readonly _id: string;
+    readonly ingredients: Array<string>;
+    readonly status: string;
+    readonly name: string;
+    readonly createdAt: string | number | Date;
+    readonly updatedAt: string;
+    readonly number: number;
+  };
+}
 
 export interface IRegisterUser {
   name?: string;
@@ -50,4 +51,35 @@ export interface IForgotPassword {
 export interface ILogin {
   email?: string;
   password?: string;
+}
+
+export type TWebSocketResponse = {
+  orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
+};
+
+export type TUser = {
+  createdAt?: string;
+  email: string;
+  name: string;
+  password?: string;
+  updatedAt?: string;
+};
+
+export type TOrderInfoResponse = {
+  success: boolean;
+  orders: ReadonlyArray<TOrder>;
+};
+
+export interface TOrder {
+  readonly _id: string;
+  readonly name: string;
+  readonly number: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly ingredients: Array<string>;
+  readonly status: "created" | "done" | "pending";
+  readonly path?: string;
+  readonly __v: string;
 }

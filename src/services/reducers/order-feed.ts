@@ -8,25 +8,20 @@ import {
 } from "../actions/order-feed";
 
 import { TOrderFeedActions } from "../actions/order-feed";
-import { TOrder } from "../types/data";
+import { TOrder, TWebSocketResponse } from "../types/data";
 
 export type TOrderFeedState = {
   wsConnected: boolean;
   isConnecting: boolean;
-  orders: ReadonlyArray<{
-    orders: ReadonlyArray<TOrder>;
-    success: boolean;
-    total: number;
-    totalToday: number;
-  }>;
-  error: any;
+  orders: TWebSocketResponse[] | null;
+  error: boolean;
 };
 
 const initialState: TOrderFeedState = {
   wsConnected: false,
   isConnecting: false,
   orders: [],
-  error: undefined,
+  error: false,
 };
 
 export const orderFeedReducer = (
@@ -41,7 +36,7 @@ export const orderFeedReducer = (
     case WS_ORDER_FEED_OPEN:
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: true,
         isConnecting: false,
       };
@@ -49,21 +44,21 @@ export const orderFeedReducer = (
     case WS_ORDER_FEED_ERROR:
       return {
         ...state,
-        error: action.payload,
+        error: true,
         wsConnected: false,
       };
 
     case WS_ORDER_FEED_CLOSE:
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: false,
         orders: [],
       };
     case WS_ORDER_FEED_DISCONNECT:
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: false,
         orders: [],
       };
@@ -71,7 +66,7 @@ export const orderFeedReducer = (
     case WS_ORDER_FEED_MESSAGE:
       return {
         ...state,
-        error: undefined,
+        error: false,
         orders: action.payload,
       };
     default:

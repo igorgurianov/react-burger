@@ -8,6 +8,7 @@ import { TOrderHistoryActions } from "../actions/order-history";
 import { TOrderActions } from "../actions/order";
 import { TUserActions } from "../actions/user";
 import { rootReducer } from "../reducers";
+import { store } from "../store";
 
 export type AppState = ReturnType<typeof rootReducer>;
 
@@ -27,5 +28,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   AppActions
 >;
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = ThunkDispatch<AppState, never, AppActions>;

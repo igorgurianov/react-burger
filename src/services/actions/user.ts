@@ -2,6 +2,11 @@ import { api } from "../../utils/api";
 import { AppDispatch } from "../types";
 import { ILogin, IRegisterUser } from "../types/data";
 
+export interface IUser {
+  name: string;
+  email: string;
+}
+
 export const REGISTER_USER_REQUEST: "REGISTER_USER_REQUEST" =
   "REGISTER_USER_REQUEST";
 export const REGISTER_USER_SUCCESS: "REGISTER_USER_SUCCESS" =
@@ -14,6 +19,7 @@ export const LOGIN_USER_REQUEST: "LOGIN_USER_REQUEST" = "LOGIN_USER_REQUEST";
 export const LOGIN_USER_SUCCESS: "LOGIN_USER_SUCCESS" = "LOGIN_USER_SUCCESS";
 
 export const SET_USER_SUCCESS: "SET_USER_SUCCESS" = "SET_USER_SUCCESS";
+export const SET_USER_LOGOUT: "SET_USER_LOGOUT" = "SET_USER_LOGOUT";
 export const SET_USER_FAILED: "SET_USER_FAILED" = "SET_USER_FAILED";
 
 export const FORGOT_PASSWORD: "FORGOT_PASSWORD" = "FORGOT_PASSWORD";
@@ -40,8 +46,14 @@ export interface ILoginUserSuccess {
 }
 export interface ISetUserSuccess {
   readonly type: typeof SET_USER_SUCCESS;
-  readonly payload: any;
+  readonly payload: { user: IUser };
 }
+
+export interface ISetUserLogout {
+  readonly type: typeof SET_USER_LOGOUT;
+  readonly payload: null;
+}
+
 export interface ISetUserFailed {
   readonly type: typeof SET_USER_FAILED;
 }
@@ -61,7 +73,8 @@ export type TUserActions =
   | ILoginUserRequest
   | ILoginUserSuccess
   | ISetUserSuccess
-  | ISetUserFailed;
+  | ISetUserFailed
+  | ISetUserLogout;
 
 export function registration(values: IRegisterUser) {
   return function (dispatch: AppDispatch) {
@@ -130,7 +143,7 @@ export function logout() {
       .then((res) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        dispatch({ type: SET_USER_SUCCESS, payload: null });
+        dispatch({ type: SET_USER_LOGOUT, payload: null });
       })
       .catch((res) => dispatch({ type: SET_USER_FAILED }));
   };

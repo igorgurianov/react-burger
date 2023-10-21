@@ -5,12 +5,14 @@ import {
   LOGIN_USER_SUCCESS,
   SET_USER_SUCCESS,
   SET_USER_FAILED,
+  SET_USER_LOGOUT,
 } from "../actions/user";
+import { TUser } from "../types/data";
 
 import { TUserActions } from "../actions/user";
 
 export type TUserState = {
-  user?: any;
+  user: TUser | null;
   setUserFailed: boolean;
   registerRequest: boolean;
   registerFailed: boolean;
@@ -63,23 +65,23 @@ export const userReducer = (
     }
 
     case SET_USER_SUCCESS: {
-      if (action.payload) {
-        return {
-          ...state,
-          setUserFailed: false,
-          user: {
-            ...state.user,
-            email: action.payload.user.email,
-            name: action.payload.user.name,
-          },
-        };
-      } else {
-        return {
-          ...state,
-          setUserFailed: false,
-          user: null,
-        };
-      }
+      return {
+        ...state,
+        setUserFailed: false,
+        user: {
+          ...state.user,
+          email: action.payload.user.email,
+          name: action.payload.user.name,
+        },
+      };
+    }
+
+    case SET_USER_LOGOUT: {
+      return {
+        ...state,
+        setUserFailed: false,
+        user: null,
+      };
     }
     case SET_USER_FAILED: {
       return {

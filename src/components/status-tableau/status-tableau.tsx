@@ -1,5 +1,6 @@
 import style from "./status-tableau.module.css";
 import { useAppSelector } from "../../hooks";
+import { TOrder } from "../../services/types/data";
 
 const StatusTableau = () => {
   const { orders, total, totalToday } = useAppSelector(
@@ -13,7 +14,7 @@ const StatusTableau = () => {
           <h4 className="text text_type_main-medium">Готовы:</h4>
           {orders && (
             <ul className={style.board__list}>
-              {orders.slice(0, 6).map((order: any) => {
+              {orders.slice(0, 6).map((order: TOrder) => {
                 if (order.status === "done") {
                   return (
                     <li
@@ -32,7 +33,7 @@ const StatusTableau = () => {
           <h4 className="text text_type_main-medium">В работе:</h4>
           {orders && (
             <ul className={style.board__list}>
-              {orders.map((order: any) => {
+              {orders.map((order: TOrder) => {
                 if (order.status === "pending") {
                   return (
                     <li

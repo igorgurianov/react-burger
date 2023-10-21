@@ -6,19 +6,20 @@ import {
   WS_HISTORY_OPEN,
 } from "../actions/order-history";
 import { TOrderHistoryActions } from "../actions/order-history";
+import { TOrder } from "../types/data";
 
 export type TOrderHistoryState = {
   wsConnected: boolean;
   isConnecting: boolean;
-  orders: any;
-  error: any;
+  orders: ReadonlyArray<TOrder>;
+  error: boolean;
 };
 
 const initialState = {
   wsConnected: false,
   isConnecting: false,
   orders: [],
-  error: undefined,
+  error: false,
 };
 
 export const orderHistoryReducer = (
@@ -33,7 +34,7 @@ export const orderHistoryReducer = (
     case WS_HISTORY_OPEN:
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: true,
         isConnecting: false,
       };
@@ -41,14 +42,14 @@ export const orderHistoryReducer = (
     case WS_HISTORY_ERROR:
       return {
         ...state,
-        error: action.payload,
+        error: true,
         wsConnected: false,
       };
 
     case WS_HISTORY_CLOSE:
       return {
         ...state,
-        error: undefined,
+        error: false,
         wsConnected: false,
         orders: [],
       };
@@ -56,7 +57,7 @@ export const orderHistoryReducer = (
     case WS_HISTORY_MESSAGE:
       return {
         ...state,
-        error: undefined,
+        error: false,
         orders: action.payload,
       };
 

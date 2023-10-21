@@ -1,4 +1,9 @@
-import { IRegisterUser, IForgotPassword, ILogin } from "../services/types/data";
+import {
+  IRegisterUser,
+  IForgotPassword,
+  ILogin,
+  TOrderInfoResponse,
+} from "../services/types/data";
 const BURGER_API_URL = "https://norma.nomoreparties.space/api";
 export const ORDER_FEED_URL = "wss://norma.nomoreparties.space/orders/all";
 export const ORDER_HISTORY_URL = "wss://norma.nomoreparties.space/orders";
@@ -6,7 +11,7 @@ export const ORDER_HISTORY_URL = "wss://norma.nomoreparties.space/orders";
 const checkResponse = (res: Response) => {
   return res.ok
     ? res.json()
-    : res.json().then((err: any) => Promise.reject(err));
+    : res.json().then((err: string) => Promise.reject(err));
 };
 
 const checkSuccess = (res: any) => {
@@ -16,7 +21,7 @@ const checkSuccess = (res: any) => {
   return Promise.reject(`Ответ не success: ${res}`);
 };
 
-const request = (endpoint: string, options?: RequestInit) => {
+const request = (endpoint: string, options?: RequestInit): Promise<any> => {
   return fetch(`${BURGER_API_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
@@ -34,7 +39,7 @@ const refreshToken = () =>
     }),
   });
 
-const requestWithRefresh = async (endpoint: string, options: any) => {
+const requestWithRefresh = async (endpoint: string, options?: any) => {
   try {
     return await request(endpoint, options);
   } catch (err: any) {
@@ -54,7 +59,8 @@ const requestWithRefresh = async (endpoint: string, options: any) => {
 const getIngredients = () => request("/ingredients");
 
 // Запросить информаци о конкретном заказе
-const getOrderInfo = (order: any) => request(`/orders/${order}`);
+const getOrderInfo = (order: string): Promise<TOrderInfoResponse> =>
+  request(`/orders/${order}`);
 // Разместить заказ
 const placeOrder = (requestData: string[]) => {
   return requestWithRefresh("/orders", {

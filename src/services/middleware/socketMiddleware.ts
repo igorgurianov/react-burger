@@ -1,9 +1,15 @@
 import { Middleware } from "redux";
+import { MiddlewareAPI } from "redux";
+import { AppDispatch } from "../types";
+import { RootState } from "../types";
 
 export const socketMiddleware = (wsActions: {
   [key: string]: string;
 }): Middleware => {
-  return (store) => {
+  return (
+    store
+    //: MiddlewareAPI<AppDispatch, RootState>
+  ) => {
     let socket: WebSocket | null = null;
 
     return (next) => (action) => {
@@ -36,7 +42,7 @@ export const socketMiddleware = (wsActions: {
           dispatch({ type: onError });
         };
 
-        socket.onmessage = (event) => {
+        socket.onmessage = (event: MessageEvent<string>) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
           dispatch({ type: onMessage, payload: parsedData });

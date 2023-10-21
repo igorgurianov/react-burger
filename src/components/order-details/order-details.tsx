@@ -2,7 +2,6 @@ import { FC } from "react";
 import styles from "./order-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import acceptIcon from "../../images/accept_icon.svg";
-import PropTypes from "prop-types";
 import { useAppSelector } from "../../hooks";
 
 interface IOrderDetails {
